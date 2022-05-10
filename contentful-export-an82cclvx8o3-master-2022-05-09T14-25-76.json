@@ -1,0 +1,1482 @@
+{
+  "contentTypes": [
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "song",
+        "type": "ContentType",
+        "createdAt": "2022-04-25T09:47:00.336Z",
+        "updatedAt": "2022-04-27T06:08:37.076Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-04-27T06:08:37.076Z",
+        "firstPublishedAt": "2022-04-25T09:47:00.779Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 3,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "displayField": "name",
+      "name": "Song",
+      "description": "",
+      "fields": [
+        {
+          "id": "name",
+          "name": "name",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "lyrics",
+          "name": "lyrics",
+          "type": "RichText",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "enabledMarks": [
+                "bold",
+                "italic",
+                "underline"
+              ],
+              "message": "Only bold, italic, and underline marks are allowed"
+            },
+            {
+              "enabledNodeTypes": [
+              ],
+              "message": "Nodes are not allowed"
+            },
+            {
+              "nodes": {
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "demo",
+          "name": "demo",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+            ],
+            "linkType": "Asset"
+          }
+        },
+        {
+          "id": "tabs",
+          "name": "tabs",
+          "type": "Array",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false,
+          "items": {
+            "type": "Link",
+            "validations": [
+            ],
+            "linkType": "Asset"
+          }
+        },
+        {
+          "id": "slug",
+          "name": "slug",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "createdBy",
+          "name": "Created By",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkContentType": [
+                "user"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Entry"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "user",
+        "type": "ContentType",
+        "createdAt": "2022-04-27T06:06:05.021Z",
+        "updatedAt": "2022-04-27T06:10:11.696Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-04-27T06:10:11.696Z",
+        "firstPublishedAt": "2022-04-27T06:06:05.340Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 3,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "displayField": "fullName",
+      "name": "User",
+      "description": "",
+      "fields": [
+        {
+          "id": "username",
+          "name": "username",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+            {
+              "unique": true
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "slug",
+          "name": "slug",
+          "type": "Symbol",
+          "localized": false,
+          "required": true,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "fullName",
+          "name": "Full name",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "instrument",
+          "name": "instrument",
+          "type": "Symbol",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "in": [
+                "Vocals",
+                "Guitar",
+                "Lead Guitar",
+                "Rhytm Guitar",
+                "Bass",
+                "Keyboards",
+                "Drums",
+                "Percussion"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "description",
+          "name": "Description",
+          "type": "RichText",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "enabledMarks": [
+                "bold",
+                "italic",
+                "underline"
+              ],
+              "message": "Only bold, italic, and underline marks are allowed"
+            },
+            {
+              "enabledNodeTypes": [
+                "hyperlink"
+              ],
+              "message": "Only link to Url nodes are allowed"
+            },
+            {
+              "nodes": {
+              }
+            }
+          ],
+          "disabled": false,
+          "omitted": false
+        },
+        {
+          "id": "profilePic",
+          "name": "Profile Pic",
+          "type": "Link",
+          "localized": false,
+          "required": false,
+          "validations": [
+            {
+              "linkMimetypeGroup": [
+                "image"
+              ]
+            }
+          ],
+          "disabled": false,
+          "omitted": false,
+          "linkType": "Asset"
+        }
+      ]
+    }
+  ],
+  "tags": [
+  ],
+  "editorInterfaces": [
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "an82cclvx8o3",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 6,
+        "createdAt": "2022-04-25T09:47:00.880Z",
+        "createdBy": {
+          "sys": {
+            "id": "5eyKctC27TG34yQWjYwPxu",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-04-27T06:08:37.847Z",
+        "updatedBy": {
+          "sys": {
+            "id": "5eyKctC27TG34yQWjYwPxu",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "song",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "name",
+          "settings": {
+            "helpText": "Name of the song"
+          },
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "lyrics",
+          "widgetId": "richTextEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "demo",
+          "settings": {
+            "helpText": "Demo's and recordings for the song",
+            "showLinkEntityAction": true,
+            "showCreateEntityAction": true
+          },
+          "widgetId": "assetLinksEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "tabs",
+          "settings": {
+            "helpText": "Tabulatures for the song",
+            "showLinkEntityAction": true,
+            "showCreateEntityAction": true
+          },
+          "widgetId": "assetLinksEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "slug",
+          "settings": {
+            "trackingFieldId": "name"
+          },
+          "widgetId": "slugEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "createdBy",
+          "widgetId": "entryLinkEditor",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    },
+    {
+      "sys": {
+        "id": "default",
+        "type": "EditorInterface",
+        "space": {
+          "sys": {
+            "id": "an82cclvx8o3",
+            "type": "Link",
+            "linkType": "Space"
+          }
+        },
+        "version": 6,
+        "createdAt": "2022-04-27T06:06:05.465Z",
+        "createdBy": {
+          "sys": {
+            "id": "5eyKctC27TG34yQWjYwPxu",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "updatedAt": "2022-04-27T06:10:12.465Z",
+        "updatedBy": {
+          "sys": {
+            "id": "5eyKctC27TG34yQWjYwPxu",
+            "type": "Link",
+            "linkType": "User"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "id": "user",
+            "type": "Link",
+            "linkType": "ContentType"
+          }
+        },
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        }
+      },
+      "controls": [
+        {
+          "fieldId": "username",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "slug",
+          "settings": {
+            "trackingFieldId": "username"
+          },
+          "widgetId": "slugEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "fullName",
+          "widgetId": "singleLine",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "instrument",
+          "widgetId": "dropdown",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "description",
+          "widgetId": "richTextEditor",
+          "widgetNamespace": "builtin"
+        },
+        {
+          "fieldId": "profilePic",
+          "widgetId": "assetLinkEditor",
+          "widgetNamespace": "builtin"
+        }
+      ]
+    }
+  ],
+  "entries": [
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "2eAx5DzBDiooT9XxSlNdch",
+        "type": "Entry",
+        "createdAt": "2022-04-25T09:47:19.119Z",
+        "updatedAt": "2022-05-09T06:53:31.447Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 31,
+        "publishedAt": "2022-05-09T06:53:31.447Z",
+        "firstPublishedAt": "2022-04-25T09:55:39.456Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 12,
+        "version": 32,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "song"
+          }
+        }
+      },
+      "fields": {
+        "name": {
+          "en-US": "As Winter Comes"
+        },
+        "lyrics": {
+          "en-US": {
+            "data": {
+            },
+            "content": [
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "Reach, so close that it blinds you out\nToo far, You've come with all my burden\nTo see all that sorrow dampened in endless extent\nToo far, I've come for having it all\n\nSo trust me now, it will fall apart\nGot lost somehow, got lost relying\nWould you take the leap for me to see it lands too far\nWorthless strive to dive in\n",
+                    "nodeType": "text"
+                  },
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "\n\"Our weeping hearts, frozen into shades of grey. The end is here.\nDeath to do us apart, ",
+                    "nodeType": "text"
+                  },
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                      {
+                        "type": "italic"
+                      }
+                    ],
+                    "value": "my love",
+                    "nodeType": "text"
+                  },
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "\"",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              },
+              {
+                "data": {
+                },
+                "content": [
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": "\"This pain inside growing as daylight turns into night.\nLeaving this world behind.\nAs cold winter winds ",
+                    "nodeType": "text"
+                  },
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                      {
+                        "type": "bold"
+                      }
+                    ],
+                    "value": "evanesce",
+                    "nodeType": "text"
+                  },
+                  {
+                    "data": {
+                    },
+                    "marks": [
+                    ],
+                    "value": " our souls\"",
+                    "nodeType": "text"
+                  }
+                ],
+                "nodeType": "paragraph"
+              }
+            ],
+            "nodeType": "document"
+          }
+        },
+        "demo": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Asset",
+                "id": "57ZrOIR8sOm1BkJKyyUDp"
+              }
+            }
+          ]
+        },
+        "tabs": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Asset",
+                "id": "6b3IFcpaW7dMFqIuoghSnG"
+              }
+            }
+          ]
+        },
+        "slug": {
+          "en-US": "as-winter-comes"
+        },
+        "createdBy": {
+          "en-US": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Entry",
+              "id": "1xvTCIy8QwISPfFJTFjH1I"
+            }
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "1xvTCIy8QwISPfFJTFjH1I",
+        "type": "Entry",
+        "createdAt": "2022-04-27T06:08:47.668Z",
+        "updatedAt": "2022-04-27T06:11:51.471Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 6,
+        "publishedAt": "2022-04-27T06:11:51.471Z",
+        "firstPublishedAt": "2022-04-27T06:09:14.363Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 7,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "user"
+          }
+        }
+      },
+      "fields": {
+        "username": {
+          "en-US": "sapatti"
+        },
+        "slug": {
+          "en-US": "sapatti"
+        },
+        "fullName": {
+          "en-US": "Csaba"
+        },
+        "instrument": {
+          "en-US": "Bass"
+        },
+        "profilePic": {
+          "en-US": {
+            "sys": {
+              "type": "Link",
+              "linkType": "Asset",
+              "id": "3eu63u92Sx69uR3AWYNS2"
+            }
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "3b7CGiMAcr4GjQEWq7AO3w",
+        "type": "Entry",
+        "createdAt": "2022-05-06T12:59:44.533Z",
+        "updatedAt": "2022-05-06T13:01:32.708Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 4,
+        "publishedAt": "2022-05-06T13:01:32.708Z",
+        "firstPublishedAt": "2022-05-06T13:01:32.708Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 5,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "song"
+          }
+        }
+      },
+      "fields": {
+        "name": {
+          "en-US": "Gothicmetal"
+        },
+        "demo": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Asset",
+                "id": "7mCPXlpUlBYnwmuu0EC1td"
+              }
+            }
+          ]
+        },
+        "slug": {
+          "en-US": "gothicmetal"
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "2Us4LVYhTBL4ZaKD3b3QoE",
+        "type": "Entry",
+        "createdAt": "2022-05-09T05:19:00.836Z",
+        "updatedAt": "2022-05-09T06:19:06.441Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-05-09T06:19:06.441Z",
+        "firstPublishedAt": "2022-05-09T05:19:44.341Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "contentType": {
+          "sys": {
+            "type": "Link",
+            "linkType": "ContentType",
+            "id": "song"
+          }
+        }
+      },
+      "fields": {
+        "name": {
+          "en-US": "Scarlet Rot"
+        },
+        "demo": {
+          "en-US": [
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Asset",
+                "id": "1Ktk3u9lCuijOTGSp9Yfqj"
+              }
+            },
+            {
+              "sys": {
+                "type": "Link",
+                "linkType": "Asset",
+                "id": "2a3bqyFUty2wjn7MsFOj2Z"
+              }
+            }
+          ]
+        },
+        "slug": {
+          "en-US": "scarlet-rot"
+        }
+      }
+    }
+  ],
+  "assets": [
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "57ZrOIR8sOm1BkJKyyUDp",
+        "type": "Asset",
+        "createdAt": "2022-04-25T09:47:42.559Z",
+        "updatedAt": "2022-04-26T08:27:39.237Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 11,
+        "publishedAt": "2022-04-26T08:27:39.237Z",
+        "firstPublishedAt": "2022-04-25T09:52:34.987Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 2,
+        "version": 12,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "As Winter Comes Demo"
+        },
+        "description": {
+          "en-US": "Demo with Sami's vocals"
+        },
+        "file": {
+          "en-US": {
+            "url": "//assets.ctfassets.net/an82cclvx8o3/57ZrOIR8sOm1BkJKyyUDp/ae519dbd9fe603ea03c1ed4495b62485/AsWinterComes.mp3",
+            "details": {
+              "size": 2324044
+            },
+            "fileName": "AsWinterComes.mp3",
+            "contentType": "audio/mpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "3eu63u92Sx69uR3AWYNS2",
+        "type": "Asset",
+        "createdAt": "2022-04-27T06:10:52.637Z",
+        "updatedAt": "2022-04-27T06:11:39.368Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 6,
+        "publishedAt": "2022-04-27T06:11:39.368Z",
+        "firstPublishedAt": "2022-04-27T06:11:39.368Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 7,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "csababw"
+        },
+        "description": {
+          "en-US": "Tähän tulee kuvaus"
+        },
+        "file": {
+          "en-US": {
+            "url": "//images.ctfassets.net/an82cclvx8o3/3eu63u92Sx69uR3AWYNS2/7e5b1e3a1c388766a474b1499361df8e/csababw.jpg",
+            "details": {
+              "size": 240399,
+              "image": {
+                "width": 1152,
+                "height": 1152
+              }
+            },
+            "fileName": "csababw.jpg",
+            "contentType": "image/jpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "2a3bqyFUty2wjn7MsFOj2Z",
+        "type": "Asset",
+        "createdAt": "2022-05-05T11:52:50.949Z",
+        "updatedAt": "2022-05-05T11:53:16.026Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-05-05T11:53:16.026Z",
+        "firstPublishedAt": "2022-05-05T11:53:16.026Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "LosKitaros"
+        },
+        "description": {
+          "en-US": "Teemun demo"
+        },
+        "file": {
+          "en-US": {
+            "url": "//assets.ctfassets.net/an82cclvx8o3/2a3bqyFUty2wjn7MsFOj2Z/c2b13861396e16d9c0f9d98e2816d343/LosKitaros.mp3",
+            "details": {
+              "size": 2879806
+            },
+            "fileName": "LosKitaros.mp3",
+            "contentType": "audio/mpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "7mCPXlpUlBYnwmuu0EC1td",
+        "type": "Asset",
+        "createdAt": "2022-05-06T13:00:17.417Z",
+        "updatedAt": "2022-05-06T13:01:24.763Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-05-06T13:01:24.763Z",
+        "firstPublishedAt": "2022-05-06T13:01:24.763Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "GothicMetal Demo"
+        },
+        "description": {
+          "en-US": "Temen demo"
+        },
+        "file": {
+          "en-US": {
+            "url": "//assets.ctfassets.net/an82cclvx8o3/7mCPXlpUlBYnwmuu0EC1td/948036b00886789789f42d32141e4a70/GothicMetal.mp3",
+            "details": {
+              "size": 2080680
+            },
+            "fileName": "GothicMetal.mp3",
+            "contentType": "audio/mpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "1Ktk3u9lCuijOTGSp9Yfqj",
+        "type": "Asset",
+        "createdAt": "2022-05-09T05:19:15.463Z",
+        "updatedAt": "2022-05-09T05:19:37.861Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 5,
+        "publishedAt": "2022-05-09T05:19:37.861Z",
+        "firstPublishedAt": "2022-05-09T05:19:37.861Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 6,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "Scarlet Rot Demo"
+        },
+        "description": {
+          "en-US": "Teemun demo"
+        },
+        "file": {
+          "en-US": {
+            "url": "//assets.ctfassets.net/an82cclvx8o3/1Ktk3u9lCuijOTGSp9Yfqj/2dbd3449cc6b00a423cd6d06810dbd29/Scarlet_Rot.mp3",
+            "details": {
+              "size": 4975593
+            },
+            "fileName": "Scarlet Rot.mp3",
+            "contentType": "audio/mpeg"
+          }
+        }
+      }
+    },
+    {
+      "metadata": {
+        "tags": [
+        ]
+      },
+      "sys": {
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "id": "6b3IFcpaW7dMFqIuoghSnG",
+        "type": "Asset",
+        "createdAt": "2022-05-09T06:52:03.594Z",
+        "updatedAt": "2022-05-09T06:53:26.891Z",
+        "environment": {
+          "sys": {
+            "id": "master",
+            "type": "Link",
+            "linkType": "Environment"
+          }
+        },
+        "publishedVersion": 3,
+        "publishedAt": "2022-05-09T06:53:26.891Z",
+        "firstPublishedAt": "2022-05-09T06:53:26.891Z",
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "publishedCounter": 1,
+        "version": 4,
+        "publishedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        }
+      },
+      "fields": {
+        "title": {
+          "en-US": "tabtest"
+        },
+        "description": {
+          "en-US": ""
+        },
+        "file": {
+          "en-US": {
+            "url": "//assets.ctfassets.net/an82cclvx8o3/6b3IFcpaW7dMFqIuoghSnG/8fa0c4fe9e9e20e7bf5ea8be757262ac/tabtest.txt",
+            "details": {
+              "size": 14
+            },
+            "fileName": "tabtest.txt",
+            "contentType": "text/plain"
+          }
+        }
+      }
+    }
+  ],
+  "locales": [
+    {
+      "name": "English (United States)",
+      "code": "en-US",
+      "fallbackCode": null,
+      "default": true,
+      "contentManagementApi": true,
+      "contentDeliveryApi": true,
+      "optional": false,
+      "sys": {
+        "type": "Locale",
+        "id": "5jyhLxH3kVKwzrYkJcwHZH",
+        "version": 1,
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "environment": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Environment",
+            "id": "master",
+            "uuid": "b9e3ed4c-256e-404c-9fb1-aeb5a23752e7"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "createdAt": "2022-04-25T09:40:35Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedAt": "2022-04-25T09:40:35Z"
+      }
+    }
+  ],
+  "webhooks": [
+  ],
+  "roles": [
+    {
+      "name": "Editor",
+      "description": "Allows editing, publishing and archiving of content",
+      "policies": [
+        {
+          "effect": "allow",
+          "actions": "all",
+          "constraint": {
+            "and": [
+              {
+                "equals": [
+                  {
+                    "doc": "sys.type"
+                  },
+                  "Entry"
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "effect": "allow",
+          "actions": "all",
+          "constraint": {
+            "and": [
+              {
+                "equals": [
+                  {
+                    "doc": "sys.type"
+                  },
+                  "Asset"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "permissions": {
+        "ContentModel": [
+          "read"
+        ],
+        "Settings": [
+        ],
+        "ContentDelivery": [
+        ],
+        "Environments": [
+        ],
+        "EnvironmentAliases": [
+        ],
+        "Tags": [
+        ]
+      },
+      "sys": {
+        "type": "Role",
+        "id": "5jBLh1Dm4Ke0sGu7qYSCrb",
+        "version": 0,
+        "space": {
+          "sys": {
+            "type": "Link",
+            "linkType": "Space",
+            "id": "an82cclvx8o3"
+          }
+        },
+        "createdBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "createdAt": "2022-04-25T09:40:35Z",
+        "updatedBy": {
+          "sys": {
+            "type": "Link",
+            "linkType": "User",
+            "id": "5eyKctC27TG34yQWjYwPxu"
+          }
+        },
+        "updatedAt": "2022-04-25T09:40:35Z"
+      }
+    }
+  ]
+}
