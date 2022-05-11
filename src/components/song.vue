@@ -36,7 +36,7 @@
         <div
           v-if="song.fields.lyrics"
           v-html="richTextFormat(song.fields.lyrics)"
-          style="white-space: pre-line; font-size: 1.5rem"
+          class="lyricsbody"
         ></div>
         <div v-else style="padding-bottom: 1em">No lyrics</div>
       </div>
@@ -104,5 +104,10 @@ video {
   padding: 0px;
   margin: 0px;
   max-width: 100%;
+}
+.lyricsbody {
+  white-space: pre-line;
+  font-size: 1.2rem;
+  padding: 1em;
 }
 </style>

@@ -69,16 +69,15 @@ nav {
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 }
 .demo {
-  max-width: 65%;
   border: 1px solid #333;
   display: inline-block;
   margin: 1em;
-  padding: 3em;
+  padding: 1em;
   border-radius: 0.5em;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 audio {
-  max-width: 80%;
+  max-width: 100%;
 }
 .button {
   background-color: rgba(255, 255, 255, 0.05);

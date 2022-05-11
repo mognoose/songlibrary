@@ -10,7 +10,7 @@
           >Add&nbsp;Song</router-link
         >
       </div> -->
-      <div class="profile">ALPHA 0.1.2</div>
+      <div class="profile">{{ $version }}</div>
     </div>
   </nav>
 </template>
