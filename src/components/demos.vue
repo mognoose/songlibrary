@@ -38,6 +38,7 @@ export default {
     hasTag(file, tag) {
       const tagnames = file.metadata.tags.map((tag) => tag.sys.id);
       if (tagnames.includes(tag)) return true;
+      if (tag === 'other' && tagnames.length === 0) return true;
       return false;
     },
   },

@@ -100,11 +100,6 @@ export default {
         if (t.name === tag) t.selected = !t.selected;
       });
     },
-    hasTag(file, tag) {
-      const tagnames = file.metadata.tags.map((tag) => tag.sys.id);
-      if (tagnames.includes(tag)) return true;
-      return false;
-    },
     tagSelected(tag) {
       const tagName = this.tags.filter((t) => {
         if (t.name === tag) return t;
