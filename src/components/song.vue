@@ -1,34 +1,25 @@
 <template>
   <div>
     <div v-if="song?.fields">
-      <h1 v-if="song?.fields">♬ {{ song.fields.name }}</h1>
-      <div class="demos">
-        <h2>🎧 Demos</h2>
-        <div v-for="demo in song.fields.demo" :key="demo.id" class="demo">
-          <h2>
-            {{ demo?.fields?.title }}
-          </h2>
-          <h3>{{ demo?.fields?.description }}</h3>
-
-          <video
-            width="360"
-            height="120"
-            controls
-            v-if="demo.fields.file.contentType === 'video/mp4'"
+      <h1>♬ {{ song.fields.name }}</h1>
+      <div class="files">
+        <h2>🎧 Files</h2>
+        <div class="tags">
+          <button
+            class="tag"
+            @click="toggleTag(tag.name)"
+            v-for="tag in tags"
+            :key="tag.name"
+            :class="tag.selected ? 'selectedTag' : 'unselectedTag'"
           >
-            <source
-              :src="'https:' + demo.fields.file.url"
-              :type="demo.fields.file.contentType"
-            />
-            Your browser does not support the video tag.
-          </video>
-          <audio controls v-else>
-            <source
-              :src="'https:' + demo.fields.file.url"
-              :type="demo.fields.file.contentType"
-            />
-            Your browser does not support the audio tag.
-          </audio>
+            {{ tag.name }}
+          </button>
+        </div>
+
+        <div v-for="file in song.fields.demo" :key="file.id">
+          <div v-for="tag in tags" :key="tag.name">
+            <Demos v-if="tagSelected(tag.name)" :file="file" :tag="tag.name" />
+          </div>
         </div>
       </div>
       <div class="lyrics">
@@ -63,10 +54,19 @@
 <script>
 import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-
+import Demos from '../components/demos.vue';
 export default {
+  components: {
+    Demos,
+  },
   data() {
     return {
+      tags: [
+        { name: 'demo', selected: true },
+        { name: 'riff', selected: false },
+        { name: 'rehersalrec', selected: false },
+        { name: 'other', selected: false },
+      ],
       song: {},
     };
   },
@@ -95,6 +95,22 @@ export default {
     richTextFormat(text) {
       return documentToHtmlString(text);
     },
+    toggleTag(tag) {
+      return this.tags.map((t) => {
+        if (t.name === tag) t.selected = !t.selected;
+      });
+    },
+    hasTag(file, tag) {
+      const tagnames = file.metadata.tags.map((tag) => tag.sys.id);
+      if (tagnames.includes(tag)) return true;
+      return false;
+    },
+    tagSelected(tag) {
+      const tagName = this.tags.filter((t) => {
+        if (t.name === tag) return t;
+      });
+      return tagName[0].selected;
+    },
   },
 };
 </script>
@@ -109,5 +125,31 @@ video {
   white-space: pre-line;
   font-size: 1.2rem;
   padding: 1em;
+}
+.tags {
+  display: flex;
+  justify-content: center;
+}
+.tag {
+  min-width: 3em;
+  cursor: pointer;
+  margin: 0.5em;
+  padding: 0.5em;
+  border: 0px;
+  border-radius: 1em;
+  background: none;
+  color: #666;
+}
+.tag:hover {
+  background: #2f2f2f;
+  color: #999;
+}
+.selectedTag {
+  background: #333;
+  color: #eee;
+}
+.selectedTag:hover {
+  background: #363636;
+  color: #fff;
 }
 </style>
