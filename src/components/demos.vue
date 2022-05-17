@@ -6,8 +6,8 @@
     <h3>{{ file?.fields?.description }}</h3>
 
     <video
-      width="360"
-      height="120"
+      width="320"
+      height="240"
       controls
       v-if="file.fields.file.contentType === 'video/mp4'"
     >
@@ -44,4 +44,12 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.demo {
+  max-width: 80%;
+  overflow: hidden;
+}
+video {
+  margin-left: 0px;
+}
+</style>

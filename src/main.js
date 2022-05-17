@@ -7,6 +7,6 @@ import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is de
 
 let app = createApp(App);
 
-app.config.globalProperties.$version = 'ALPHA 0.1.4';
+app.config.globalProperties.$version = 'ALPHA 0.2.1';
 
 app.use(store).use(router).mount('#app');
