@@ -2,7 +2,8 @@
   <div>
     <div v-if="song?.fields">
       <h1>♬ {{ song.fields.name }}</h1>
-      <div class="files">
+      <div class="sectionButton" v-if="$route.query.section" @click="back()"><h2>🡠 Back</h2></div>
+      <div class="files" v-if="$route.query.section === 'files'">
         <h2>🎧 Files</h2>
         <div class="tags">
           <button
@@ -22,7 +23,7 @@
           </div>
         </div>
       </div>
-      <div class="lyrics">
+      <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
         <h2>🎤 Lyrics</h2>
         <div
           v-if="song.fields.lyrics"
@@ -31,7 +32,16 @@
         ></div>
         <div v-else style="padding-bottom: 1em">No lyrics</div>
       </div>
-      <div class="lyrics">
+      <div class="lyrics" v-else-if="$route.query.section === 'chords'">
+        <h2>🎼 Chords and Structure</h2>
+        <div
+          v-if="song.fields.chordsAndStructure"
+          v-html="richTextFormat(song.fields.chordsAndStructure)"
+          class="lyricsbody"
+        ></div>
+        <div v-else style="padding-bottom: 1em">No tabulatures</div>
+      </div>
+      <!-- <div class="lyrics">
         <h2>🎼 Tabulatures</h2>
         <div v-if="song.fields.tabs" style="padding-bottom: 1em">
           <div v-for="tab in song.fields.tabs" :key="tab.id">
@@ -41,6 +51,11 @@
           </div>
         </div>
         <div v-else style="padding-bottom: 1em">No tabulatures</div>
+      </div> -->
+      <div v-else>
+        <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
+        <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
+        <div class="sectionButton" @click="openSection('files')"><h2>🎧 Files</h2></div>
       </div>
       <div style="padding-bottom: 1em"></div>
 
@@ -105,6 +120,12 @@ export default {
         if (t.name === tag) return t;
       });
       return tagName[0].selected;
+    },
+    openSection(section) {
+      this.$router.push('?section='+section)
+    },
+    back() {
+      this.$router.replace({'query': null})
     },
   },
 };

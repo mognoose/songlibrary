@@ -58,7 +58,8 @@ nav {
 }
 
 .files,
-.lyrics {
+.lyrics,
+.sectionButton {
   max-width: 1000px;
   margin: 0 auto;
   margin-top: 1em;
@@ -67,6 +68,9 @@ nav {
   padding: 0px;
   border-radius: 1em;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+.sectionButton{
+  cursor: pointer;
 }
 .demo {
   border: 1px solid #333;
