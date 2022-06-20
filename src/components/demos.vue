@@ -3,6 +3,7 @@
     <h2>
       {{ file?.fields?.title }}
     </h2>
+    <small>{{ dateFormat }}</small>
     <h3>{{ file?.fields?.description }}</h3>
 
     <video
@@ -34,6 +35,11 @@ export default {
     file: Object,
     tag: String,
   },
+  computed: {
+    dateFormat() {
+      return this.$luxonDateTime.fromISO(this.file.sys.createdAt).setLocale('fi-fi').toLocaleString()
+    }
+  },
   methods: {
     hasTag(file, tag) {
       const tagnames = file.metadata.tags.map((tag) => tag.sys.id);
@@ -52,5 +58,12 @@ export default {
 }
 video {
   margin-left: 0px;
+}
+h2{
+  margin-bottom: 0px;
+}  
+small{
+  padding: 0px;
+  margin: 0px;
 }
 </style>

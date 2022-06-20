@@ -17,7 +17,7 @@
           </button>
         </div>
 
-        <div v-for="file in song.fields.demo" :key="file.id">
+        <div v-for="file in filesReversed" :key="file.id">
           <div v-for="tag in tags" :key="tag.name">
             <Demos v-if="tagSelected(tag.name)" :file="file" :tag="tag.name" />
           </div>
@@ -88,6 +88,11 @@ export default {
   mounted() {
     this.fetchSong();
   },
+  computed: {
+    filesReversed() {
+      return this.song.fields.demo.reverse()
+    }
+  },
   methods: {
     async fetchSong() {
       console.log(this.$route.params.song);
@@ -100,6 +105,9 @@ export default {
         client.getEntries({
           content_type: 'song',
           'fields.slug[in]': this.$route.params.song,
+          order: '-sys.createdAt',
+          include: 4
+
         }),
       ])
         .then(([song]) => {
