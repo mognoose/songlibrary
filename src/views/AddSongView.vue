@@ -7,9 +7,10 @@
       </div>
       <div class="field">
         <input name="name" type="text" placeholder="name" v-model="song.name" />
+        <input type="file" @change="uploadFile" ref="file">
       </div>
     </div>
-    <button @click="add()" class="button success">Send</button>
+    <button @click="create()" class="button success">Send</button>
     <button @click="cancel()" class="button danger">Cancel</button>
     <!-- <div class="input">
       <RichTextEditor />
@@ -26,33 +27,98 @@ export default {
     };
   },
   methods: {
-    async add() {
+    async create() {
       if (!this.song.name) {
         console.log('Name is required');
-        return;
+        // return;
       }
+      const file = this.$refs.file.files[0]
+      // console.log(file.name)
+      // console.log(file.type)
+
       const contentful = require('contentful-management');
 
       const client = contentful.createClient({
         accessToken: process.env.VUE_APP_CTF_CMA_ACCESS_TOKEN,
       });
-      client
-        .getSpace(process.env.VUE_APP_CTF_SPACE_ID)
-        .then((space) =>
-          space.getEnvironment(process.env.VUE_APP_CTF_ENVIRONMENT)
-        )
-        .then((environment) =>
-          environment.createEntry('song', {
+      const space = await client.getSpace(process.env.VUE_APP_CTF_SPACE_ID);
+      const environment = await space.getEnvironment("master");
+
+        /**
+       * Asset creation and publish
+       */
+      let asset = await environment.createAssetFromFiles({
+        fields: {
+          title: {
+            'en-US': this.song.name
+          },
+          description: {
+            'en-US': 'Asset description'
+          },
+          file: {
+            'en-US': {
+              contentType: file.type,
+              fileName: file.name,
+              file: file
+            }
+          }
+        },
+        metadata: {
+            tags: [
+              {
+                sys: {
+                  type: "Link",
+                  linkType: "Tag",
+                  id: "demo"
+                }
+              }
+            ]
+          }
+      })
+      asset = await asset.processForAllLocales()
+      asset = await asset.publish()
+
+      
+      /**
+       * Entry creation and publish
+       */
+      let entry = await environment.createEntry('song', {
             fields: {
               name: {
-                'en-US': this.song.name || 'Unnamed',
+                'en-US': 'test',
               },
-            },
+              demo: {
+                "en-US": [{
+                  sys: {
+                    type: "Link",
+                    linkType: "Asset",
+                    id: asset.sys.id
+                  }
+                }]
+              }
+            }
           })
-        )
-        .then((entry) => entry.publish())
-        .then((entry) => console.log(`Entry ${entry.sys.id} published.`))
-        .catch(console.error);
+      // reassign `entry` to have the latest version number
+      entry = await entry.publish();
+      
+    
+      
+      /**
+       * Update entry with new asset
+       */
+      // console.log(entry)
+      // entry.fields["demo"] = [
+      //   {
+      //     sys: {
+      //     id: asset.sys.id,
+      //     linkType: "Asset",
+      //     type: "Link",
+      //     }
+      //   },
+      // ];
+      // entry = await entry.update();
+      // entry = await entry.publish();
+
     },
     cancel() {
       this.$router.push('/');
