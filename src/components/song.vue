@@ -3,8 +3,9 @@
     <div v-if="song?.fields">
       <h1>♬ {{ song.fields.name }}</h1>
       <div class="sectionButton" v-if="$route.query.section" @click="back()"><h2>🡠 Back</h2></div>
-      <div class="files" v-if="$route.query.section === 'files'">
-        <h2>🎧 Files</h2>
+
+      <div class="files" v-if="$route.query.section === 'recordings'">
+        <h2>🎧 Recordings</h2>
         <div class="tags">
           <button
             class="tag"
@@ -23,6 +24,7 @@
           </div>
         </div>
       </div>
+
       <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
         <h2>🎤 Lyrics</h2>
         <div
@@ -32,6 +34,7 @@
         ></div>
         <div v-else style="padding-bottom: 1em">No lyrics</div>
       </div>
+
       <div class="lyrics" v-else-if="$route.query.section === 'chords'">
         <h2>🎼 Chords and Structure</h2>
         <div
@@ -41,6 +44,7 @@
         ></div>
         <div v-else style="padding-bottom: 1em">No tabulatures</div>
       </div>
+
       <!-- <div class="lyrics">
         <h2>🎼 Tabulatures</h2>
         <div v-if="song.fields.tabs" style="padding-bottom: 1em">
@@ -52,10 +56,11 @@
         </div>
         <div v-else style="padding-bottom: 1em">No tabulatures</div>
       </div> -->
+      
       <div v-else>
         <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
+        <div class="sectionButton" @click="openSection('recordings')"><h2>🎧 Recordings</h2></div>
         <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
-        <div class="sectionButton" @click="openSection('files')"><h2>🎧 Files</h2></div>
       </div>
       <div style="padding-bottom: 1em"></div>
 

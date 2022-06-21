@@ -1,40 +1,117 @@
 <template>
   <div class="container">
-    <h1>Add Song</h1>
-    <div class="input">
-      <div class="label">
-        <label for="name">Name</label>
-      </div>
-      <div class="field">
-        <input name="name" type="text" placeholder="name" v-model="song.name" />
-        <input type="file" @change="uploadFile" ref="file">
-      </div>
+    <h1>Add content</h1>
+    <div v-if="!$route.query.section">
+      <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
+      <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
+      <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
+      <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
     </div>
-    <button @click="create()" class="button success">Send</button>
-    <button @click="cancel()" class="button danger">Cancel</button>
-    <!-- <div class="input">
-      <RichTextEditor />
-    </div> -->
+      <div class="files" v-if="$route.query.section === 'song'">
+        <h2>✹ New song</h2>
+          <div class="input">
+            <div class="label">
+              <label for="name">Name</label>
+            </div>
+            <div class="field">
+              <input name="name" type="text" placeholder="Name of the song" v-model="song.name" />
+              <small>link: <strong>{{slug}}</strong></small>
+            </div>
+          </div>
+          <div class="input">
+            <div class="label">
+              <label for="name">Lyrics</label>
+            </div>
+            <div class="field">
+              <textarea name="name" type="text" rows="10" placeholder="Lyrics of the song" v-model="song.lyrics" />
+            </div>
+          </div>
+          <div class="input">
+            <div class="label">
+              <label for="name">Recording</label>
+            </div>
+            <div class="field">
+              <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
+              <input name="name" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
+
+              <input type="file" @change="uploadFile" ref="file">
+            </div>
+          </div>
+          <div class="input">
+            <div class="label">
+              <label for="name">Chords</label>
+            </div>
+            <div class="field">
+              <textarea name="name" type="text" rows="10" placeholder="Chords for the song" v-model="song.chords" />
+            </div>
+          </div>
+
+        <button @click="create()" class="button success">Send</button>
+        <button @click="cancel()" class="button danger">Cancel</button>
+      </div>
+
+      <div class="files" v-if="$route.query.section === 'recording'">
+        <h2>🎧 Files</h2>
+          <div class="input">
+            <div class="label">
+              <label for="name">Name</label>
+            </div>
+            <div class="field">
+              <input name="name" type="text" placeholder="name" v-model="song.name" />
+              <input type="file" @change="uploadFile" ref="file">
+            </div>
+          </div>
+        <button @click="create()" class="button success">Send</button>
+        <button @click="cancel()" class="button danger">Cancel</button>
+      </div>
+
+      <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
+        <h2>🎤 Lyrics</h2>
+        <div
+          v-if="song.fields.lyrics"
+          v-html="richTextFormat(song.fields.lyrics)"
+          class="lyricsbody"
+        ></div>
+        <div v-else style="padding-bottom: 1em">No lyrics</div>
+      </div>
+
+      <div class="lyrics" v-else-if="$route.query.section === 'chords'">
+        <h2>🎼 Chords and Structure</h2>
+        <div
+          v-if="song.fields.chordsAndStructure"
+          v-html="richTextFormat(song.fields.chordsAndStructure)"
+          class="lyricsbody"
+        ></div>
+        <div v-else style="padding-bottom: 1em">No tabulatures</div>
+      </div>
   </div>
 </template>
 
 <script>
+
 export default {
   components: {},
   data() {
     return {
-      song: {},
+      song: {
+        recording: {}
+      },
     };
+  },
+  computed: {
+    slug() {
+      if(!this.song.name) return location.protocol+'//'+location.host+'/songlibrary/'
+      return location.protocol+'//'+location.host+'/songlibrary/'+this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
+    }
   },
   methods: {
     async create() {
+      console.log("SENDING...");
       if (!this.song.name) {
         console.log('Name is required');
-        // return;
+        return;
       }
       const file = this.$refs.file.files[0]
-      // console.log(file.name)
-      // console.log(file.type)
 
       const contentful = require('contentful-management');
 
@@ -47,60 +124,76 @@ export default {
         /**
        * Asset creation and publish
        */
-      let asset = await environment.createAssetFromFiles({
-        fields: {
-          title: {
-            'en-US': this.song.name
-          },
-          description: {
-            'en-US': 'Asset description'
-          },
-          file: {
-            'en-US': {
-              contentType: file.type,
-              fileName: file.name,
-              file: file
-            }
-          }
-        },
-        metadata: {
-            tags: [
-              {
-                sys: {
-                  type: "Link",
-                  linkType: "Tag",
-                  id: "demo"
-                }
+      if(file){
+        var asset = await environment.createAssetFromFiles({
+          fields: {
+            title: {
+              'en-US': this.song.recording.name || file.name
+            },
+            description: {
+              'en-US': this.song.recording.description || " "
+            },
+            file: {
+              'en-US': {
+                contentType: file.type,
+                fileName: file.name,
+                file: file
               }
-            ]
-          }
-      })
-      asset = await asset.processForAllLocales()
-      asset = await asset.publish()
-
+            }
+          },
+          metadata: {
+              tags: [
+                {
+                  sys: {
+                    type: "Link",
+                    linkType: "Tag",
+                    id: "demo"
+                  }
+                }
+              ]
+            }
+        })
+        asset = await asset.processForAllLocales()
+        asset = await asset.publish()
+      }      
       
       /**
        * Entry creation and publish
        */
-      let entry = await environment.createEntry('song', {
-            fields: {
-              name: {
-                'en-US': 'test',
-              },
-              demo: {
-                "en-US": [{
-                  sys: {
-                    type: "Link",
-                    linkType: "Asset",
-                    id: asset.sys.id
-                  }
-                }]
+      const song = {
+        fields: {
+          name: {
+            "en-US": this.song.name,
+          },
+          slug: {
+            "en-US": this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
+          },
+          lyrics: {
+            "en-US": {
+              content:[{nodeType: "paragraph", data:{}, content: [{nodeType: "text", value:this.song.lyrics, marks: [], data:{}}]}], data: {}, nodeType: "document"
               }
+          },
+          chordsAndStructure: {
+            "en-US": {
+              content:[{nodeType: "paragraph", data:{}, content: [{nodeType: "text", value:this.song.chords, marks: [], data:{}}]}], data: {}, nodeType: "document"
+              }
+          },
+        }
+      }
+      if(file){
+        song.fields.demo = {
+          "en-US": [{
+            sys: {
+              type: "Link",
+              linkType: "Asset",
+              id: asset.sys.id
             }
-          })
+          }]
+        }
+      }
+      let entry = await environment.createEntry('song', song)
       // reassign `entry` to have the latest version number
       entry = await entry.publish();
-      
     
       
       /**
@@ -118,17 +211,20 @@ export default {
       // ];
       // entry = await entry.update();
       // entry = await entry.publish();
-
+    console.log("DONE");
     },
     cancel() {
-      this.$router.push('/');
+      this.$router.push('/add');
+    },
+    openSection(section) {
+      this.$router.push('?section='+section)
     },
   },
 };
 </script>
 
 <style lang="scss" scoped>
-input {
+input, textarea {
   background-color: #121212;
   color: #cecece;
   padding: 10px 35px 10px 15px;
@@ -138,8 +234,11 @@ input {
   margin-bottom: 1em;
   width: 100%;
 }
-.input {
+.input{
   margin: 0 auto;
+}
+textarea {
+  border-radius: 15px;
 }
 .label {
   margin: 0.5em;
