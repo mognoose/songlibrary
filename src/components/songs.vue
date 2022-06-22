@@ -4,13 +4,15 @@
     <!-- <div style="margin: 2em">
       <router-link to="/add" class="button">+ Add song</router-link>
     </div> -->
-    <input
-      type="search"
-      placeholder="search"
-      class="search"
-      v-model="search"
-      @input="fetchSongs"
-    />
+    <div class="searchWrapper">
+      <input
+        type="search"
+        placeholder="search"
+        class="search"
+        v-model="search"
+        @input="fetchSongs"
+      />
+    </div>
     <table>
       <tr v-for="song in songs" :key="song.id">
         <td @click="openSong(song.fields.slug)">{{ song.fields.name }}</td>
@@ -92,5 +94,9 @@ td {
 }
 td:hover {
   background-color: rgba(255, 255, 255, 0.02);
+}
+.searchWrapper {
+  margin: 0 auto;
+  max-width: 40em;
 }
 </style>
