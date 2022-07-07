@@ -3,7 +3,7 @@
     <h2>
       {{ file?.fields?.title }}
     </h2>
-    <small>{{ dateFormat }}</small>
+    <small>{{ dateFormat + ' - ' + tag}}</small>
     <h3>{{ file?.fields?.description }}</h3>
 
     <video
