@@ -1,137 +1,152 @@
 <template>
-  <div class="container">
-    <h1>Add content</h1>
-    <div v-if="!$route.query.section">
-      <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
-      <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
-      <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
-      <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
+  <div>
+    <div v-if="!auth">
+
+      <div class="input">
+        <div class="label">
+          <label for="name">PIN:{{auth}}</label>
+        </div>
+        <div class="field">
+          <input type="password" v-model="pin" :class="{authFailed}">
+          <button @click="login()" class="button success">Login</button>
+
+        </div>
+      </div>
     </div>
-      <div class="files" v-if="$route.query.section === 'song'">
-        <h2>✹ New song</h2>
+    <div class="container" v-else>
+      <h1>Add content</h1>
+      <div v-if="!$route.query.section">
+        <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
+        <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
+        <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
+        <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
+      </div>
+        <div class="files" v-if="$route.query.section === 'song'">
+          <h2>✹ New song</h2>
+            <div class="input">
+              <div class="label">
+                <label for="name">Name</label>
+              </div>
+              <div class="field">
+                <input name="name" type="text" placeholder="Name of the song" v-model="song.name" />
+                <small>link: <strong>{{slug}}</strong></small>
+              </div>
+            </div>
+            <div class="input">
+              <div class="label">
+                <label for="name">Lyrics</label>
+              </div>
+              <div class="field">
+                <textarea name="name" type="text" rows="10" placeholder="Lyrics of the song" v-model="song.lyrics" />
+              </div>
+            </div>
+            <div class="input">
+              <div class="label">
+                <label for="name">Recording</label>
+              </div>
+              <div class="field" style="padding-bottom: 1em;">
+                <Multiselect
+                  v-model="song.recording.type"
+                  placeholder="Choose recording type"
+                  :searchable="true"
+                  label="name"
+                  valueProp="value"
+                  :options="tags"
+                />
+              </div>
+              <div class="field">
+                <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
+                <input name="description" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
+
+                <input type="file" @change="uploadFile" ref="file">
+              </div>
+            </div>
+            <div class="input">
+              <div class="label">
+                <label for="name">Chords</label>
+              </div>
+              <div class="field">
+                <textarea name="name" type="text" rows="10" placeholder="Chords for the song" v-model="song.chords" />
+              </div>
+            </div>
+
+          <button @click="create()" class="button success">Send</button>
+          <button @click="cancel()" class="button danger">Cancel</button>
+        </div>
+
+        <div class="files" v-if="$route.query.section === 'recording'">
+          <h2>🎧 Recording</h2>
           <div class="input">
             <div class="label">
-              <label for="name">Name</label>
+              <label for="name">For Song: {{song.name}}</label>
             </div>
-            <div class="field">
-              <input name="name" type="text" placeholder="Name of the song" v-model="song.name" />
-              <small>link: <strong>{{slug}}</strong></small>
-            </div>
-          </div>
-          <div class="input">
-            <div class="label">
-              <label for="name">Lyrics</label>
-            </div>
-            <div class="field">
-              <textarea name="name" type="text" rows="10" placeholder="Lyrics of the song" v-model="song.lyrics" />
-            </div>
-          </div>
-          <div class="input">
-            <div class="label">
-              <label for="name">Recording</label>
-            </div>
-            <div class="field" style="padding-bottom: 1em;">
               <Multiselect
-                v-model="song.recording.type"
-                placeholder="Choose recording type"
+                v-model="song.id"
+                placeholder="Choose a song from library"
+                :filter-results="false"
+                :min-chars="1"
+                :resolve-on-load="false"
+                :delay="0"
                 :searchable="true"
-                label="name"
-                valueProp="value"
-                :options="tags"
+                :options="async query => await fetchSongs(query)"
               />
+          </div>
+
+          <div v-if="song.id">
+
+            <div class="input">
+              <div class="label">
+                <label for="name">Type</label>
+              </div>
+              <div class="field">
+                <Multiselect
+                  v-model="song.recording.type"
+                  placeholder="Choose recording type"
+                  :searchable="true"
+                  label="name"
+                  valueProp="value"
+                  :options="tags"
+                />
+              </div>
             </div>
-            <div class="field">
+          </div>
+          <div v-if="song.id && song.recording.type">
+            <div class="input">
+              <div class="label">
+                <label for="name">Recording</label>
+              </div>
               <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
               <input name="description" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
 
               <input type="file" @change="uploadFile" ref="file">
             </div>
+            <button @click="addFile()" class="button success">Send</button>
+            <button @click="cancel()" class="button danger">Cancel</button>
           </div>
-          <div class="input">
-            <div class="label">
-              <label for="name">Chords</label>
-            </div>
-            <div class="field">
-              <textarea name="name" type="text" rows="10" placeholder="Chords for the song" v-model="song.chords" />
-            </div>
-          </div>
+          <div style="padding-bottom: 2em" />
 
-        <button @click="create()" class="button success">Send</button>
-        <button @click="cancel()" class="button danger">Cancel</button>
-      </div>
-
-      <div class="files" v-if="$route.query.section === 'recording'">
-        <h2>🎧 Recording</h2>
-        <div class="input">
-          <div class="label">
-            <label for="name">For Song: {{song.name}}</label>
-          </div>
-            <Multiselect
-              v-model="song.id"
-              placeholder="Choose a song from library"
-              :filter-results="false"
-              :min-chars="1"
-              :resolve-on-load="false"
-              :delay="0"
-              :searchable="true"
-              :options="async query => await fetchSongs(query)"
-            />
         </div>
 
-        <div v-if="song.id">
-
-          <div class="input">
-            <div class="label">
-              <label for="name">Type</label>
-            </div>
-            <div class="field">
-              <Multiselect
-                v-model="song.recording.type"
-                placeholder="Choose recording type"
-                :searchable="true"
-                label="name"
-                valueProp="value"
-                :options="tags"
-              />
-            </div>
-          </div>
+        <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
+          <h2>🎤 Lyrics</h2>
+          <div
+            v-if="song.fields.lyrics"
+            v-html="richTextFormat(song.fields.lyrics)"
+            class="lyricsbody"
+          ></div>
+          <div v-else style="padding-bottom: 1em">No lyrics</div>
         </div>
-        <div v-if="song.id && song.recording.type">
-          <div class="input">
-            <div class="label">
-              <label for="name">Recording</label>
-            </div>
-            <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
-            <input name="description" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
 
-            <input type="file" @change="uploadFile" ref="file">
-          </div>
-          <button @click="addFile()" class="button success">Send</button>
-          <button @click="cancel()" class="button danger">Cancel</button>
+        <div class="lyrics" v-else-if="$route.query.section === 'chords'">
+          <h2>🎼 Chords and Structure</h2>
+          <div
+            v-if="song.fields.chordsAndStructure"
+            v-html="richTextFormat(song.fields.chordsAndStructure)"
+            class="lyricsbody"
+          ></div>
+          <div v-else style="padding-bottom: 1em">No tabulatures</div>
         </div>
-        <div style="padding-bottom: 2em" />
-
-      </div>
-
-      <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
-        <h2>🎤 Lyrics</h2>
-        <div
-          v-if="song.fields.lyrics"
-          v-html="richTextFormat(song.fields.lyrics)"
-          class="lyricsbody"
-        ></div>
-        <div v-else style="padding-bottom: 1em">No lyrics</div>
-      </div>
-
-      <div class="lyrics" v-else-if="$route.query.section === 'chords'">
-        <h2>🎼 Chords and Structure</h2>
-        <div
-          v-if="song.fields.chordsAndStructure"
-          v-html="richTextFormat(song.fields.chordsAndStructure)"
-          class="lyricsbody"
-        ></div>
-        <div v-else style="padding-bottom: 1em">No tabulatures</div>
-      </div>
+    </div>
   </div>
 </template>
 
@@ -145,6 +160,9 @@ export default {
   },
   data() {
     return {
+      auth: false,
+      authFailed: false,
+      pin: "",
       song: {
         recording: {type:""}
       },
@@ -164,6 +182,11 @@ export default {
     }
   },
   methods: {
+    login(){
+      console.log("login");
+      if(this.pin.toString() === "0707") this.auth = true
+      else this.authFailed = true
+    },
     async getEnvironment(branch){
       const contentful = require('contentful-management')
       const client = contentful.createClient({accessToken: process.env.VUE_APP_CTF_CMA_ACCESS_TOKEN})
@@ -385,6 +408,9 @@ select{
 }
 .song{
   background-color: none;
+}
+.authFailed{
+  border: 1px solid red;
 }
 </style>
 
