@@ -4,7 +4,7 @@
 
       <div class="input">
         <div class="label">
-          <label for="name">PIN:{{auth}}</label>
+          <label for="name">PIN:</label>
         </div>
         <div class="field">
           <input type="password" v-model="pin" :class="{authFailed}">
@@ -21,131 +21,136 @@
         <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
         <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
       </div>
-        <div class="files" v-if="$route.query.section === 'song'">
-          <h2>✹ New song</h2>
-            <div class="input">
-              <div class="label">
-                <label for="name">Name</label>
-              </div>
-              <div class="field">
-                <input name="name" type="text" placeholder="Name of the song" v-model="song.name" />
-                <small>link: <strong>{{slug}}</strong></small>
-              </div>
-            </div>
-            <div class="input">
-              <div class="label">
-                <label for="name">Lyrics</label>
-              </div>
-              <div class="field">
-                <textarea name="name" type="text" rows="10" placeholder="Lyrics of the song" v-model="song.lyrics" />
-              </div>
-            </div>
-            <div class="input">
-              <div class="label">
-                <label for="name">Recording</label>
-              </div>
-              <div class="field" style="padding-bottom: 1em;">
-                <Multiselect
-                  v-model="song.recording.type"
-                  placeholder="Choose recording type"
-                  :searchable="true"
-                  label="name"
-                  valueProp="value"
-                  :options="tags"
-                />
-              </div>
-              <div class="field">
-                <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
-                <input name="description" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
 
-                <input type="file" @change="uploadFile" ref="file">
-              </div>
-            </div>
-            <div class="input">
-              <div class="label">
-                <label for="name">Chords</label>
-              </div>
-              <div class="field">
-                <textarea name="name" type="text" rows="10" placeholder="Chords for the song" v-model="song.chords" />
-              </div>
-            </div>
 
-          <button @click="create()" class="button success">Send</button>
-          <button @click="cancel()" class="button danger">Cancel</button>
-        </div>
-
-        <div class="files" v-if="$route.query.section === 'recording'">
-          <h2>🎧 Recording</h2>
+      <div class="files" v-if="$route.query.section === 'song'">
+        <h2>✹ New song</h2>
           <div class="input">
             <div class="label">
-              <label for="name">For Song: {{song.name}}</label>
+              <label for="name">Name</label>
             </div>
+            <div class="field">
+              <input name="name" type="text" placeholder="Name of the song" v-model="song.name" />
+              <small>link: <strong>{{slug}}</strong></small>
+            </div>
+          </div>
+          <div class="input">
+            <div class="label">
+              <label for="name">Lyrics</label>
+            </div>
+            <div class="field">
+              <textarea name="name" type="text" rows="10" placeholder="Lyrics of the song" v-model="song.lyrics" />
+            </div>
+          </div>
+          <div class="input">
+            <div class="label">
+              <label for="name">Recording</label>
+            </div>
+            <div class="field" style="padding-bottom: 1em;">
               <Multiselect
-                v-model="song.id"
-                placeholder="Choose a song from library"
-                :filter-results="false"
-                :min-chars="1"
-                :resolve-on-load="false"
-                :delay="0"
+                v-model="song.recording.type"
+                placeholder="Choose recording type"
                 :searchable="true"
-                :options="async query => await fetchSongs(query)"
+                label="name"
+                valueProp="value"
+                :options="tags"
               />
-          </div>
-
-          <div v-if="song.id">
-
-            <div class="input">
-              <div class="label">
-                <label for="name">Type</label>
-              </div>
-              <div class="field">
-                <Multiselect
-                  v-model="song.recording.type"
-                  placeholder="Choose recording type"
-                  :searchable="true"
-                  label="name"
-                  valueProp="value"
-                  :options="tags"
-                />
-              </div>
             </div>
-          </div>
-          <div v-if="song.id && song.recording.type">
-            <div class="input">
-              <div class="label">
-                <label for="name">Recording</label>
-              </div>
+            <div class="field">
               <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
               <input name="description" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
 
               <input type="file" @change="uploadFile" ref="file">
             </div>
-            <button @click="addFile()" class="button success">Send</button>
-            <button @click="cancel()" class="button danger">Cancel</button>
           </div>
-          <div style="padding-bottom: 2em" />
+          <div class="input">
+            <div class="label">
+              <label for="name">Chords</label>
+            </div>
+            <div class="field">
+              <textarea name="name" type="text" rows="10" placeholder="Chords for the song" v-model="song.chords" />
+            </div>
+          </div>
 
+        <button @click="create()" class="button success">Send</button>
+        <button @click="cancel()" class="button danger">Cancel</button>
+      </div>
+
+      <div class="files" v-if="$route.query.section === 'recording'">
+        <h2>🎧 Recording</h2>
+        <div class="input">
+          <div class="label">
+            <label for="name">For Song: {{song.name}}</label>
+          </div>
+            <Multiselect
+              v-model="song.id"
+              placeholder="Choose a song from library"
+              :filter-results="false"
+              :min-chars="1"
+              :resolve-on-load="false"
+              :delay="0"
+              :searchable="true"
+              :options="async query => await fetchSongs(query)"
+            />
         </div>
 
-        <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
-          <h2>🎤 Lyrics</h2>
-          <div
-            v-if="song.fields.lyrics"
-            v-html="richTextFormat(song.fields.lyrics)"
-            class="lyricsbody"
-          ></div>
-          <div v-else style="padding-bottom: 1em">No lyrics</div>
-        </div>
+        <div v-if="song.id">
 
-        <div class="lyrics" v-else-if="$route.query.section === 'chords'">
-          <h2>🎼 Chords and Structure</h2>
-          <div
-            v-if="song.fields.chordsAndStructure"
-            v-html="richTextFormat(song.fields.chordsAndStructure)"
-            class="lyricsbody"
-          ></div>
-          <div v-else style="padding-bottom: 1em">No tabulatures</div>
+          <div class="input">
+            <div class="label">
+              <label for="name">Type</label>
+            </div>
+            <div class="field">
+              <Multiselect
+                v-model="song.recording.type"
+                placeholder="Choose recording type"
+                :searchable="true"
+                label="name"
+                valueProp="value"
+                :options="tags"
+              />
+            </div>
+          </div>
         </div>
+        <div v-if="song.id && song.recording.type">
+          <div class="input">
+            <div class="label">
+              <label for="name">Recording</label>
+            </div>
+            <input name="name" type="text" placeholder="Name of the recording" v-model="song.recording.name" />
+            <input name="description" type="text" placeholder="Description of the recording" v-model="song.recording.description" />
+
+            <input type="file" @change="uploadFile" ref="file">
+          </div>
+          <button @click="addFile()" class="button success">Send</button>
+          <button @click="cancel()" class="button danger">Cancel</button>
+        </div>
+        <div style="padding-bottom: 2em" />
+
+      </div>
+
+
+      <div class="lyrics" v-else-if="$route.query.section === 'lyrics'">
+        <h2>🎤 Lyrics</h2>
+        <div
+          v-if="song.fields.lyrics"
+          v-html="richTextFormat(song.fields.lyrics)"
+          class="lyricsbody"
+        ></div>
+        <div v-else style="padding-bottom: 1em">No lyrics</div>
+      </div>
+
+      <div class="lyrics" v-else-if="$route.query.section === 'chords'">
+        <h2>🎼 Chords and Structure</h2>
+        <div
+          v-if="song.fields.chordsAndStructure"
+          v-html="richTextFormat(song.fields.chordsAndStructure)"
+          class="lyricsbody"
+        />
+        <button @click="addFile()" class="button success">Send</button>
+        <button @click="cancel()" class="button danger">Cancel</button>
+        <Spinner loading />
+      </div>
     </div>
   </div>
 </template>
@@ -153,10 +158,11 @@
 <script>
 import Multiselect from '@vueform/multiselect'
 import { createClient } from 'contentful';
-
+import Spinner from '../components/Spinner'
 export default {
   components: {
-    Multiselect
+    Multiselect,
+    Spinner
   },
   data() {
     return {
@@ -172,7 +178,8 @@ export default {
         { value: "riff", name: "Riff" },
         { value: "rehersalrec", name: "Rehersalrec" },
         { value: "other", name: "Other" },
-      ]
+      ],
+      loading: true,
     };
   },
   computed: {
@@ -195,6 +202,7 @@ export default {
       return environment
     },
     async upload() {
+      this.loading = true
       console.log("UPLOADING...");
 
       const environment = await this.getEnvironment("master");
@@ -235,6 +243,7 @@ export default {
       asset = await asset.publish()
 
       console.log("FILE UPLOADED", asset);
+      this.loading = false
 
       return {
           "en-US": [{
@@ -411,6 +420,83 @@ select{
 }
 .authFailed{
   border: 1px solid red;
+.success, .danger{
+  height: 50px;
+  width: 100px;
+}
+}
+
+
+
+
+
+
+
+
+
+
+.sk-cube-grid {
+  display: inline-block;
+  margin: 0px;
+  width: 20px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.sk-cube-grid .sk-cube {
+  width: 33%;
+  height: 33%;
+  background-color: #666;
+  float: left;
+  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
+          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
+}
+.sk-cube-grid .sk-cube1 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube2 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube3 {
+  -webkit-animation-delay: 0.4s;
+          animation-delay: 0.4s; }
+.sk-cube-grid .sk-cube4 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube5 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+.sk-cube-grid .sk-cube6 {
+  -webkit-animation-delay: 0.3s;
+          animation-delay: 0.3s; }
+.sk-cube-grid .sk-cube7 {
+  -webkit-animation-delay: 0s;
+          animation-delay: 0s; }
+.sk-cube-grid .sk-cube8 {
+  -webkit-animation-delay: 0.1s;
+          animation-delay: 0.1s; }
+.sk-cube-grid .sk-cube9 {
+  -webkit-animation-delay: 0.2s;
+          animation-delay: 0.2s; }
+
+@-webkit-keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1); 
+  }
+}
+
+@keyframes sk-cubeGridScaleDelay {
+  0%, 70%, 100% {
+    -webkit-transform: scale3D(1, 1, 1);
+            transform: scale3D(1, 1, 1);
+  } 35% {
+    -webkit-transform: scale3D(0, 0, 1);
+            transform: scale3D(0, 0, 1);
+  } 
 }
 </style>
 
