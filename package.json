@@ -7,6 +7,7 @@
   },
   "scripts": {
     "serve": "vue-cli-service serve",
+    "start": "vue-cli-service serve",
     "build": "vue-cli-service build --dest dist/songlibrary",
     "deploy": "scp -r dist/songlibrary root@sapatti.synology.me:/volume1/web/"
   },
