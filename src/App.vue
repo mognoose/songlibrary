@@ -59,7 +59,8 @@ nav {
 
 .files,
 .lyrics,
-.sectionButton {
+.sectionButton,
+.btn {
   max-width: 1000px;
   margin: 0 auto;
   margin-top: 1em;
@@ -68,10 +69,31 @@ nav {
   padding: 0px;
   border-radius: 1em;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+  transition: .35s;
 }
 .sectionButton{
   cursor: pointer;
 }
+
+.round {
+  display:block;
+  margin:.5em;
+  padding: .1em;
+  width: 2em;
+  height: 2em;
+  text-decoration: none;
+  font-size: 2em;
+  line-height: 1.9em;
+  border: 1px solid #333;
+  border-radius: 50%;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+.btn:hover{
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.95);
+
+}
+
 .demo {
   border: 1px solid #333;
   display: inline-block;
