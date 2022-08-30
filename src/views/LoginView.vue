@@ -1,9 +1,7 @@
 <template>
   <div class="home">
     <h1>Login</h1>
-    <input type="email" name="email" v-model="user.email" />
-    <input type="password" name="password" v-model="user.password" />
-    <input type="submit" value="Login" @click="login" />
+    <a :href="oAuthUrl">oAuth</a>
   </div>
 </template>
 
@@ -13,22 +11,19 @@ export default {
   components: {},
   data() {
     return {
-      user: {
-        email: '',
-        password: '',
-      },
+      oAuthUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id=aUcTsnU9SixQqaRQ1GTz7jBYy-cGkEGqfJ3_K1zOXio&redirect_uri=https://songlibrary.herokuapp.com&scope=content_management_manage",
     };
   },
-  methods: {
-    login() {
-      this.$auth.login({
-        body: this.user,
-        redirect: { name: 'user-account' },
-        remember: 'Rob',
-        staySignedIn: true,
-        fetchUser: true,
-      });
-    },
-  },
+  // methods: {
+  //   login() {
+  //     this.$router.go(this.oAuthUrl)
+  //   },
+  // },
 };
 </script>
+<style scoped>
+.home{
+  max-width: 1000px;
+  margin: 0 auto;
+}
+</style>
