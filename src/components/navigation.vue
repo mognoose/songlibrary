@@ -12,8 +12,10 @@
       </div> -->
       <div>{{ $version }}</div>
       <div class="profile">
-        <div class="profileButton" v-if="user"><img :src="user.avatarUrl"></div>
-        <div class="profileButton" v-else><img src="asdf"></div>
+        <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">LOG OUT</div>
+        <div class="dropDownMenu" v-if="menuOpen==='loggedOut'"><a :href="authUrl">LOGIN</a></div>
+        <div class="profileButton" v-if="user.token" @click="openMenu('loggedIn')"><img :src="user.avatarUrl"></div>
+        <div class="profileButton" v-else @click="openMenu('loggedOut')"><img src="./../assets/icons/user.svg"></div>
       </div>
     </div>
   </nav>
@@ -26,6 +28,21 @@ export default {
   computed: {
     ...mapGetters(['user'])
   },
+  data() {
+    return {
+      authUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id="+process.env.VUE_APP_CTF_CDA_ACCESS_TOKEN+"&redirect_uri=https://songlibrary.herokuapp.com&scope=content_management_manage",
+      menuOpen: "",
+    };
+  },
+  methods: {
+    openMenu(menu){
+      if(this.menuOpen===menu){
+        this.menuOpen=""
+        return
+      }
+      this.menuOpen=menu;
+    }
+  }
 };
 </script>
 
@@ -45,6 +62,15 @@ nav {
 .logo {
   display: inline-block;
   width: 30%;
+}
+.dropDownMenu{
+  position: absolute;
+  top: 7em;
+  padding: 2em;
+  background-color: #121212;
+
+  width: 10em;
+  min-height: 10em;
 }
 .logo{
   display: flex;
