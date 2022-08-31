@@ -1,20 +1,13 @@
 <template>
   <div>
-    <div v-if="!auth">
+    <div v-if="!user">
 
       <div class="input">
-        <div class="label">
-          <label for="name">PIN:</label>
-        </div>
-        <div class="field">
-          <input type="password" v-model="pin" :class="{authFailed}">
-          <button @click="login()" class="button success">Login</button>
-
-        </div>
+        <router-link :to="oAuthUrl" class="button success">Login</router-link>
       </div>
     </div>
     <div class="container" v-else>
-      <h1>Add content</h1>
+      <h1>Add content, {{user.firstName}}</h1>
       <div v-if="!$route.query.section">
         <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
         <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
@@ -159,6 +152,8 @@
 import Multiselect from '@vueform/multiselect'
 import { createClient } from 'contentful';
 import Spinner from '../components/Spinner'
+import { mapGetters } from 'vuex';
+
 export default {
   components: {
     Multiselect,
@@ -166,6 +161,7 @@ export default {
   },
   data() {
     return {
+      oAuthUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id=aUcTsnU9SixQqaRQ1GTz7jBYy-cGkEGqfJ3_K1zOXio&redirect_uri=https://songlibrary.herokuapp.com&scope=content_management_manage",
       auth: false,
       authFailed: false,
       pin: "",
@@ -182,7 +178,8 @@ export default {
       loading: true,
     };
   },
-  computed: {
+    computed: {
+    ...mapGetters(['user',]),
     slug() {
       if(!this.song.name) return location.protocol+'//'+location.host+'/songlibrary/'
       return location.protocol+'//'+location.host+'/songlibrary/'+this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
