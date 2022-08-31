@@ -1,12 +1,6 @@
 <template>
   <div>
-    <div v-if="!user">
-
-      <div class="input">
-        <router-link :to="oAuthUrl" class="button success">Login</router-link>
-      </div>
-    </div>
-    <div class="container" v-else>
+    <div class="container">
       <h1>Add content, {{user.firstName}}</h1>
       <div v-if="!$route.query.section">
         <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
@@ -14,7 +8,6 @@
         <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
         <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
       </div>
-
 
       <div class="files" v-if="$route.query.section === 'song'">
         <h2>✹ New song</h2>
@@ -152,7 +145,7 @@
 import Multiselect from '@vueform/multiselect'
 import { createClient } from 'contentful';
 import Spinner from '../components/Spinner'
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   components: {
@@ -161,10 +154,6 @@ export default {
   },
   data() {
     return {
-      oAuthUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id=aUcTsnU9SixQqaRQ1GTz7jBYy-cGkEGqfJ3_K1zOXio&redirect_uri=https://songlibrary.herokuapp.com&scope=content_management_manage",
-      auth: false,
-      authFailed: false,
-      pin: "",
       song: {
         recording: {type:""}
       },
@@ -178,7 +167,7 @@ export default {
       loading: true,
     };
   },
-    computed: {
+  computed: {
     ...mapGetters(['user',]),
     slug() {
       if(!this.song.name) return location.protocol+'//'+location.host+'/songlibrary/'
@@ -186,11 +175,6 @@ export default {
     }
   },
   methods: {
-    login(){
-      console.log("login");
-      if(this.pin.toString() === "0707") this.auth = true
-      else this.authFailed = true
-    },
     async getEnvironment(branch){
       const contentful = require('contentful-management')
       const client = contentful.createClient({accessToken: process.env.VUE_APP_CTF_CMA_ACCESS_TOKEN})

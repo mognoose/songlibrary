@@ -12,7 +12,7 @@
       </div> -->
       <div>{{ $version }}</div>
       <div class="profile">
-        <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">LOG OUT</div>
+        <div class="dropDownMenu" v-if="menuOpen==='loggedIn'"><a href="" @click.prevent="logout()">LOG OUT</a><br><a href="/add">ADD SONG</a></div>
         <div class="dropDownMenu" v-if="menuOpen==='loggedOut'"><a :href="authUrl">LOGIN</a></div>
         <div class="profileButton" v-if="user.token" @click="openMenu('loggedIn')"><img :src="user.avatarUrl"></div>
         <div class="profileButton" v-else @click="openMenu('loggedOut')"><img src="./../assets/icons/user.svg"></div>
@@ -22,7 +22,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   computed: {
@@ -35,12 +35,24 @@ export default {
     };
   },
   methods: {
+    ...mapActions(['setUser']),
     openMenu(menu){
       if(this.menuOpen===menu){
         this.menuOpen=""
         return
       }
       this.menuOpen=menu;
+    },
+    login(){
+      this.menuOpen=""
+      this.setUser({firstName: 'debug'})
+      localStorage.setItem('token', 'debug')
+    },
+    logout(){
+      this.menuOpen=""
+      this.setUser({})
+      localStorage.removeItem('token')
+      this.$router.push('/')
     }
   }
 };
