@@ -146,6 +146,7 @@ import Multiselect from '@vueform/multiselect'
 import { createClient } from 'contentful';
 import Spinner from '../components/Spinner'
 import { mapGetters, mapActions } from 'vuex';
+import axios from 'axios'
 
 export default {
   components: {
