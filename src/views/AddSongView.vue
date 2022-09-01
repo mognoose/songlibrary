@@ -174,7 +174,23 @@ export default {
       return location.protocol+'//'+location.host+'/songlibrary/'+this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
     }
   },
+  mounted () {
+    this.checkAuth();
+  },
   methods: {
+    ...mapActions(['setUser']),
+    async checkAuth(){
+      console.log("checkAuth");
+      if(localStorage.getItem('token')) {
+        const userData = await axios.get("https://api.contentful.com/users/me?access_token="+localStorage.getItem('token'))
+        this.setUser({...userData.data, token:localStorage.getItem('token')})
+      }
+      if(!this.user.token) {
+        this.setUser({})
+        localStorage.removeItem('token')
+        this.$router.push('/')
+      }
+    },
     async getEnvironment(branch){
       const contentful = require('contentful-management')
       const client = contentful.createClient({accessToken: process.env.VUE_APP_CTF_CMA_ACCESS_TOKEN})

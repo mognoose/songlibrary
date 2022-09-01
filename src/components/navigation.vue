@@ -12,8 +12,24 @@
       </div> -->
       <div>{{ $version }}</div>
       <div class="profile">
-        <div class="dropDownMenu" v-if="menuOpen==='loggedIn'"><a href="" @click.prevent="logout()">LOG OUT</a><br><a href="/add">ADD SONG</a></div>
-        <div class="dropDownMenu" v-if="menuOpen==='loggedOut'"><a :href="authUrl">LOGIN</a></div>
+        <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">
+          <ul>
+            <li><a href="/add?section=song">ADD SONG</a></li>
+            <li><a href="/add?section=recording">ADD RECORDING</a></li>
+            <li><a href="#" class="disabled">ADD MEMBER</a></li>
+            <hr>
+            <li><a href="" @click.prevent="logout()">LOG OUT</a></li>
+          </ul>
+        </div>
+        <div class="dropDownMenu" v-if="menuOpen==='loggedOut'">
+          <ul>
+            <li><a href="#" class="disabled">ADD SONG</a></li>
+            <li><a href="#" class="disabled">ADD RECORDING</a></li>
+            <li><a href="#" class="disabled">ADD MEMBER</a></li>
+            <hr>
+            <li><a :href="authUrl">LOGIN</a></li>
+          </ul>
+          </div>
         <div class="profileButton" v-if="user.token" @click="openMenu('loggedIn')"><img :src="user.avatarUrl"></div>
         <div class="profileButton" v-else @click="openMenu('loggedOut')"><img src="./../assets/icons/user.svg"></div>
       </div>
@@ -81,8 +97,35 @@ nav {
   padding: 2em;
   background-color: #121212;
 
-  width: 10em;
+  min-width: 10em;
   min-height: 10em;
+}
+.dropDownMenu ul{
+  list-style-type: none;
+  padding: 0px;
+  margin: 0px;
+}
+li {
+  padding-left: 2em;
+  text-indent: -2em;
+  }
+li a{
+  display: block;
+  text-decoration: none;
+  margin: 1em;
+  transition: 450ms;
+}
+li a:hover{
+  color: #eee;
+}
+.disabled{
+  color: #333;
+}
+.disabled:hover{
+  color: #444;
+}
+hr {
+  border: 1px solid #212121
 }
 .logo{
   display: flex;
