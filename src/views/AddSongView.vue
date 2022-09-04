@@ -1,27 +1,13 @@
 <template>
   <div>
-    <div v-if="!auth">
-
-      <div class="input">
-        <div class="label">
-          <label for="name">PIN:</label>
-        </div>
-        <div class="field">
-          <input type="password" v-model="pin" :class="{authFailed}">
-          <button @click="login()" class="button success">Login</button>
-
-        </div>
-      </div>
-    </div>
-    <div class="container" v-else>
-      <h1>Add content</h1>
+    <div class="container">
+      <h1>Add content, {{user.firstName}}</h1>
       <div v-if="!$route.query.section">
         <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
         <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
         <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
         <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
       </div>
-
 
       <div class="files" v-if="$route.query.section === 'song'">
         <h2>✹ New song</h2>
@@ -159,6 +145,9 @@
 import Multiselect from '@vueform/multiselect'
 import { createClient } from 'contentful';
 import Spinner from '../components/Spinner'
+import { mapGetters, mapActions } from 'vuex';
+import axios from 'axios'
+
 export default {
   components: {
     Multiselect,
@@ -166,9 +155,6 @@ export default {
   },
   data() {
     return {
-      auth: false,
-      authFailed: false,
-      pin: "",
       song: {
         recording: {type:""}
       },
@@ -183,16 +169,28 @@ export default {
     };
   },
   computed: {
+    ...mapGetters(['user',]),
     slug() {
       if(!this.song.name) return location.protocol+'//'+location.host+'/songlibrary/'
       return location.protocol+'//'+location.host+'/songlibrary/'+this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
     }
   },
+  mounted () {
+    this.checkAuth();
+  },
   methods: {
-    login(){
-      console.log("login");
-      if(this.pin.toString() === "0707") this.auth = true
-      else this.authFailed = true
+    ...mapActions(['setUser']),
+    async checkAuth(){
+      console.log("checkAuth");
+      if(localStorage.getItem('token')) {
+        const userData = await axios.get("https://api.contentful.com/users/me?access_token="+localStorage.getItem('token'))
+        this.setUser({...userData.data, token:localStorage.getItem('token')})
+      }
+      if(!this.user.token) {
+        this.setUser({})
+        localStorage.removeItem('token')
+        this.$router.push('/')
+      }
     },
     async getEnvironment(branch){
       const contentful = require('contentful-management')

@@ -28,8 +28,14 @@ if [ -z $4 ]
   else
     cma=$4
 fi
+if [ -z $5 ]
+  then
+    read -p "Content Client Id: " cid
+  else
+    cid=$5
+fi
 echo "Creating .env file with following content:"
-env="\nVUE_APP_CTF_SPACE_ID=$spaceid\nVUE_APP_CTF_ENVIRONMENT=$env\nVUE_APP_CTF_CDA_ACCESS_TOKEN=$cda\nVUE_APP_CTF_CMA_ACCESS_TOKEN=$cma"
+env="\nVUE_APP_CTF_SPACE_ID=$spaceid\nVUE_APP_CTF_ENVIRONMENT=$env\nVUE_APP_CTF_CDA_ACCESS_TOKEN=$cda\nVUE_APP_CTF_CMA_ACCESS_TOKEN=$cma\nVUE_APP_CTF_CLIENT_ID=$cid"
 echo -e $env
 
 echo -e $env >> .env
