@@ -4,9 +4,9 @@
       <h1>Add content, {{user.firstName}}</h1>
       <div v-if="!$route.query.section">
         <div class="sectionButton" @click="openSection('song')"><h2>✹ New song</h2></div>
-        <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
+        <!-- <div class="sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div> -->
         <div class="sectionButton" @click="openSection('recording')"><h2>🎧 Recording</h2></div>
-        <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
+        <!-- <div class="sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div> -->
       </div>
 
       <div class="files" v-if="$route.query.section === 'song'">

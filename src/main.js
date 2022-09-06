@@ -9,7 +9,7 @@ const { DateTime } = require("luxon");
 
 let app = createApp(App);
 
-app.config.globalProperties.$version = 'ALPHA 0.3.0';
+app.config.globalProperties.$version = 'ALPHA 0.3.1';
 
 app.use(store)
   .use(router)

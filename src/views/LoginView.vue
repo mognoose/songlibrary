@@ -11,7 +11,7 @@ export default {
   components: {},
   data() {
     return {
-      oAuthUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id=aUcTsnU9SixQqaRQ1GTz7jBYy-cGkEGqfJ3_K1zOXio&redirect_uri=https://songlibrary.herokuapp.com&scope=content_management_manage",
+      oAuthUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id=aUcTsnU9SixQqaRQ1GTz7jBYy-cGkEGqfJ3_K1zOXio&redirect_uri=https://songlibrary.vercel.app&scope=content_management_manage",
     };
   },
   // methods: {
