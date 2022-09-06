@@ -1,9 +1,6 @@
 <template>
   <div>
     <h2>Songs</h2>
-    <!-- <div style="margin: 2em">
-      <router-link to="/add" class="button">+ Add song</router-link>
-    </div> -->
     <div class="searchWrapper">
       <input
         type="search"
@@ -18,12 +15,6 @@
         <td @click="openSong(song.fields.slug)">{{ song.fields.name }}</td>
       </tr>
     </table>
-
-    <!-- <div v-for="song in songs" :key="song.id">
-      <router-link :to="song.fields.slug">
-        {{ song.fields.name }}
-      </router-link>
-    </div> -->
   </div>
 </template>
 
@@ -97,6 +88,7 @@ td:hover {
 }
 .searchWrapper {
   margin: 0 auto;
+  width: 90%;
   max-width: 40em;
 }
 </style>

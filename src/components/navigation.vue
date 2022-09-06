@@ -4,13 +4,7 @@
       <div class="logo">
         <router-link to="/"><h1>Songlibrary</h1></router-link>
       </div>
-      <!-- <div class="menu">
-        <router-link to="/">Songs</router-link>&nbsp;|&nbsp;<router-link
-          to="/add"
-          >Add&nbsp;Song</router-link
-        >
-      </div> -->
-      <div>{{ $version }}</div>
+
       <div class="profile">
         <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">
           <ul>

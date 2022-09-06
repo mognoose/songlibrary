@@ -2,14 +2,8 @@
   <footer>
     <div class="flex">
       <div class="logo">
-        <a href="https://be.contentful.com/login">Login</a>
+        <a href="https://be.contentful.com/login">Contentful</a>
       </div>
-      <!-- <div class="menu">
-        <router-link to="/">Songs</router-link>&nbsp;|&nbsp;<router-link
-          to="/add"
-          >Add&nbsp;Song</router-link
-        >
-      </div> -->
       <div class="profile">{{ $version }}</div>
     </div>
   </footer>
