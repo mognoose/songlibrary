@@ -57,9 +57,10 @@
               <textarea name="name" type="text" rows="10" placeholder="Chords for the song" v-model="song.chords" />
             </div>
           </div>
-
-        <button @click="create()" class="button success">Send</button>
-        <button @click="cancel()" class="button danger">Cancel</button>
+          
+          <button @click="create()" :disabled="loading" class="button success">Send</button>
+          <button @click="cancel()" class="button danger">Cancel</button>
+          <Spinner />
       </div>
 
       <div class="files" v-if="$route.query.section === 'recording'">
@@ -108,8 +109,9 @@
 
             <input type="file" @change="uploadFile" ref="file">
           </div>
-          <button @click="addFile()" class="button success">Send</button>
+          <button @click="addFile()" :disabled="loading" class="button success">Send</button>
           <button @click="cancel()" class="button danger">Cancel</button>
+          <Spinner />
         </div>
         <div style="padding-bottom: 2em" />
 
@@ -135,9 +137,10 @@
         />
         <button @click="addFile()" class="button success">Send</button>
         <button @click="cancel()" class="button danger">Cancel</button>
-        <Spinner loading />
+        <Spinner />
       </div>
     </div>
+    <Notification />
   </div>
 </template>
 
@@ -145,13 +148,15 @@
 import Multiselect from '@vueform/multiselect'
 import { createClient } from 'contentful';
 import Spinner from '../components/Spinner'
+import Notification from '../components/notification'
 import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios'
 
 export default {
   components: {
     Multiselect,
-    Spinner
+    Spinner,
+    Notification,
   },
   data() {
     return {
@@ -165,11 +170,10 @@ export default {
         { value: "rehersalrec", name: "Rehersalrec" },
         { value: "other", name: "Other" },
       ],
-      loading: true,
     };
   },
   computed: {
-    ...mapGetters(['user',]),
+    ...mapGetters(['user', 'loading']),
     slug() {
       if(!this.song.name) return location.protocol+'//'+location.host+'/songlibrary/'
       return location.protocol+'//'+location.host+'/songlibrary/'+this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
@@ -179,7 +183,7 @@ export default {
     this.checkAuth();
   },
   methods: {
-    ...mapActions(['setUser']),
+    ...mapActions(['setUser', 'setLoading', 'setNotification']),
     async checkAuth(){
       console.log("checkAuth");
       if(localStorage.getItem('token')) {
@@ -200,48 +204,54 @@ export default {
       return environment
     },
     async upload() {
-      this.loading = true
+      this.setLoading(true);
       console.log("UPLOADING...");
+      try{
+        const environment = await this.getEnvironment("master");
+        const file = this.$refs.file.files[0]
 
-      const environment = await this.getEnvironment("master");
-      const file = this.$refs.file.files[0]
-
-      /**
-     * Asset creation and publish
-     */
-      var asset = await environment.createAssetFromFiles({
-        fields: {
-          title: {
-            'en-US': this.song.recording.name || file.name
-          },
-          description: {
-            'en-US': this.song.recording.description || " "
-          },
-          file: {
-            'en-US': {
-              contentType: file.type,
-              fileName: file.name,
-              file: file
-            }
-          }
-        },
-        metadata: {
-            tags: [
-              {
-                sys: {
-                  type: "Link",
-                  linkType: "Tag",
-                  id: this.song.recording.type
-                }
+        /**
+       * Asset creation and publish
+       */
+        var asset = await environment.createAssetFromFiles({
+          fields: {
+            title: {
+              'en-US': this.song.recording.name || file.name
+            },
+            description: {
+              'en-US': this.song.recording.description || " "
+            },
+            file: {
+              'en-US': {
+                contentType: file.type,
+                fileName: file.name,
+                file: file
               }
-            ]
-          }
-      })
-      asset = await asset.processForAllLocales()
-      asset = await asset.publish()
+            }
+          },
+          metadata: {
+              tags: [
+                {
+                  sys: {
+                    type: "Link",
+                    linkType: "Tag",
+                    id: this.song.recording.type
+                  }
+                }
+              ]
+            }
+        })
+        asset = await asset.processForAllLocales()
+        asset = await asset.publish()
+      } catch(error){
+        console.log(error);
+        this.setNotification(error);
+        this.setLoading(false);
+        return
+      }
 
       console.log("FILE UPLOADED", asset);
-      this.loading = false
+      this.setLoading(false)
 
       return {
           "en-US": [{
@@ -255,68 +265,82 @@ export default {
 
     },
     async create() {
+      this.setLoading(true)
       console.log("CREATING NEW SONG...");
-      if (!this.song.name && !this.song.id) {
-        console.log('Song name is required');
+
+      try {
+        if (!this.song.name && !this.song.id) throw 'Song name is required'
+        const environment = await this.getEnvironment("master");
+        const file = this.$refs.file.files[0]
+      
+        /**
+         * Entry creation and publish
+         */
+        const song = {
+          fields: {
+            name: {
+              "en-US": this.song.name,
+            },
+            slug: {
+              "en-US": this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
+            },
+            lyrics: {
+              "en-US": {
+                content:[{nodeType: "paragraph", data:{}, content: [{nodeType: "text", value:this.song.lyrics, marks: [], data:{}}]}], data: {}, nodeType: "document"
+                }
+            },
+            chordsAndStructure: {
+              "en-US": {
+                content:[{nodeType: "paragraph", data:{}, content: [{nodeType: "text", value:this.song.chords, marks: [], data:{}}]}], data: {}, nodeType: "document"
+                }
+            },
+          }
+        }
+        if(file){
+          var recording = await this.upload()
+          song.fields.demo = recording
+        }
+        let entry = await environment.createEntry('song', song)
+        // reassign `entry` to have the latest version number
+        entry = await entry.publish();
+        console.log("SONG CREATED");
+        this.$router.push('/add');
+      } catch (error) {
+        console.log(error);
+        this.setNotification(error);
+        this.setLoading(false);
         return;
       }
 
-      const environment = await this.getEnvironment("master");
-      const file = this.$refs.file.files[0]
-      
-      /**
-       * Entry creation and publish
-       */
-      const song = {
-        fields: {
-          name: {
-            "en-US": this.song.name,
-          },
-          slug: {
-            "en-US": this.song.name.replace(/[^\w\s]/gi, '').replaceAll(' ', '-').toLowerCase()
-          },
-          lyrics: {
-            "en-US": {
-              content:[{nodeType: "paragraph", data:{}, content: [{nodeType: "text", value:this.song.lyrics, marks: [], data:{}}]}], data: {}, nodeType: "document"
-              }
-          },
-          chordsAndStructure: {
-            "en-US": {
-              content:[{nodeType: "paragraph", data:{}, content: [{nodeType: "text", value:this.song.chords, marks: [], data:{}}]}], data: {}, nodeType: "document"
-              }
-          },
-        }
-      }
-      if(file){
+    },
+    async addFile() {
+      try {
+        const environment = await this.getEnvironment("master");
+
         var recording = await this.upload()
-        song.fields.demo = recording
+
+        /**
+         * Entry update and publish
+         */
+        console.log("LINKING RECORDING", recording);
+
+        let entry = await environment.getEntry(this.song.id)
+        console.log("TO", entry);
+        if(entry.fields.demo) {entry.fields.demo["en-US"].push(recording["en-US"][0]); console.log("added", entry);}
+        else {entry.fields.demo = recording; console.log("created", entry);}
+
+        let updatedEntry = await entry.update()
+        updatedEntry = await updatedEntry.publish();
+        console.log("DONE", updatedEntry);
+        this.setLoading(false)
+        this.$router.push('/add');
+
+      } catch (error) {
+        console.log(error);
+        this.setNotification(error);
+        this.setLoading(false);
+        return;
       }
-      let entry = await environment.createEntry('song', song)
-      // reassign `entry` to have the latest version number
-      entry = await entry.publish();
-      console.log("SONG CREATED");
-
-
-      },
-      async addFile() {
-      const environment = await this.getEnvironment("master");
-
-      var recording = await this.upload()
-
-      /**
-       * Entry update and publish
-       */
-      console.log("LINKING RECORDING", recording);
-
-      let entry = await environment.getEntry(this.song.id)
-      console.log("TO", entry);
-      if(entry.fields.demo) {entry.fields.demo["en-US"].push(recording["en-US"][0]); console.log("added", entry);}
-      else {entry.fields.demo = recording; console.log("created", entry);}
-
-      let updatedEntry = await entry.update()
-      updatedEntry = await updatedEntry.publish();
-      console.log("DONE", updatedEntry);
-
     },
     cancel() {
       this.$router.push('/add');
@@ -424,77 +448,5 @@ select{
 }
 }
 
-
-
-
-
-
-
-
-
-
-.sk-cube-grid {
-  display: inline-block;
-  margin: 0px;
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-}
-
-.sk-cube-grid .sk-cube {
-  width: 33%;
-  height: 33%;
-  background-color: #666;
-  float: left;
-  -webkit-animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out;
-          animation: sk-cubeGridScaleDelay 1.3s infinite ease-in-out; 
-}
-.sk-cube-grid .sk-cube1 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s; }
-.sk-cube-grid .sk-cube2 {
-  -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s; }
-.sk-cube-grid .sk-cube3 {
-  -webkit-animation-delay: 0.4s;
-          animation-delay: 0.4s; }
-.sk-cube-grid .sk-cube4 {
-  -webkit-animation-delay: 0.1s;
-          animation-delay: 0.1s; }
-.sk-cube-grid .sk-cube5 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s; }
-.sk-cube-grid .sk-cube6 {
-  -webkit-animation-delay: 0.3s;
-          animation-delay: 0.3s; }
-.sk-cube-grid .sk-cube7 {
-  -webkit-animation-delay: 0s;
-          animation-delay: 0s; }
-.sk-cube-grid .sk-cube8 {
-  -webkit-animation-delay: 0.1s;
-          animation-delay: 0.1s; }
-.sk-cube-grid .sk-cube9 {
-  -webkit-animation-delay: 0.2s;
-          animation-delay: 0.2s; }
-
-@-webkit-keyframes sk-cubeGridScaleDelay {
-  0%, 70%, 100% {
-    -webkit-transform: scale3D(1, 1, 1);
-            transform: scale3D(1, 1, 1);
-  } 35% {
-    -webkit-transform: scale3D(0, 0, 1);
-            transform: scale3D(0, 0, 1); 
-  }
-}
-
-@keyframes sk-cubeGridScaleDelay {
-  0%, 70%, 100% {
-    -webkit-transform: scale3D(1, 1, 1);
-            transform: scale3D(1, 1, 1);
-  } 35% {
-    -webkit-transform: scale3D(0, 0, 1);
-            transform: scale3D(0, 0, 1);
-  } 
-}
 </style>
 
