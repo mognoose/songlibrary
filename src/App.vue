@@ -165,4 +165,28 @@ audio {
   background-color: #ee5555;
   color: #ffffff;
 }
+table {
+  width: 90%;
+  max-width: 40em;
+  margin: 0 auto;
+  border-collapse: collapse;
+  border-radius: 0.5em;
+
+  border-style: hidden; /* hide standard table (collapsed) border */
+  box-shadow: 0 0 0 1px #666; /* this draws the table border  */
+}
+td, th {
+  cursor: pointer;
+  border: 1px solid #666;
+  padding: 1em;
+  width: 100%;
+}
+th {
+  background-color: #2a2a2a;
+  border-radius: 0.5em;
+
+}
+tr:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
 </style>

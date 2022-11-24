@@ -24,11 +24,12 @@
           </button>
         </div>
 
-        <div v-for="file in filesReversed" :key="file.id">
+        <DemoFiles :files="song.fields.demo" :tags="tags" />
+        <!-- <div v-for="file in filesReversed" :key="file.id">
           <div v-for="tag in tags" :key="tag.name">
             <Demos v-if="tagSelected(tag.name)" :file="file" :tag="tag.name" />
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'lyrics'">
@@ -48,7 +49,7 @@
           v-html="richTextFormat(song.fields.chordsAndStructure)"
           class="lyricsbody"
         ></div>
-        <div v-else style="padding-bottom: 1em">No tabulatures</div>
+        <div v-else style="padding-bottom: 1em">No chords</div>
       </div>
 
       <!-- <div class="lyrics">
@@ -81,8 +82,10 @@
 import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Demos from '../components/demos.vue';
+import DemoFiles from '../components/files.vue';
 export default {
   components: {
+    DemoFiles,
     Demos,
   },
   data() {
@@ -106,7 +109,6 @@ export default {
   },
   methods: {
     async fetchSong() {
-      console.log(this.$route.params.song);
       const client = createClient({
         space: process.env.VUE_APP_CTF_SPACE_ID,
         accessToken: process.env.VUE_APP_CTF_CDA_ACCESS_TOKEN,

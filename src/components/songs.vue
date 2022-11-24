@@ -66,14 +66,6 @@ export default {
   border-radius: 100px;
   outline: none;
   margin-bottom: 1em;
-}
-table {
-  width: 90%;
-  max-width: 40em;
-  margin: 0 auto;
-  border-collapse: collapse;
-  border-radius: 0.5em;
-
   border-style: hidden; /* hide standard table (collapsed) border */
   box-shadow: 0 0 0 1px #666; /* this draws the table border  */
 }
