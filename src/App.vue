@@ -12,11 +12,18 @@ import Footer from '@/components/footer.vue';
 import { mapGetters, mapActions } from 'vuex';
 import axios from 'axios'
 
+import { faArrowLeft, faMusic, faHeadphones, faMicrophone } from "@fortawesome/free-solid-svg-icons";
+
 export default {
   name: 'HomeView',
   components: {
     Navigation,
     Footer,
+  },
+  setup() {
+		return {
+			faArrowLeft, faMusic, faHeadphones, faMicrophone
+    }
   },
   watch: {
   $route (to, from) {
@@ -102,13 +109,13 @@ nav {
 
 .round {
   display:block;
-  margin:.5em;
+  margin: .5em 0;
   padding: .1em;
   width: 2em;
   height: 2em;
   text-decoration: none;
   font-size: 2em;
-  line-height: 1.9em;
+  line-height: 2.4em;
   border: 1px solid #333;
   border-radius: 50%;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);

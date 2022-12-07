@@ -3,14 +3,14 @@
     <div v-if="song?.fields">
       <div style="max-width: 1000px;margin: 0 auto; display: flex; justify-content: flex-start; align-items: center">
         <div style="width: 20%">
-          <router-link :to="$route.query.section ? $route.path : '/'" class="btn round">🡠</router-link>
+          <router-link :to="$route.query.section ? $route.path : '/'" class="btn round"><svg-icon :fa-icon="faArrowLeft" size="34"/></router-link>
         </div>
-        <h1 style="width: 60%; text-align: center">♬ {{ song.fields.name }}</h1>
+        <h1 style="width: 60%; text-align: center">{{ song.fields.name }}</h1>
         <div style="width: 20%">&nbsp;</div>
       </div>
 
       <div class="files" v-if="$route.query.section === 'recordings'">
-        <h2>🎧 Recordings</h2>
+        <h2><svg-icon :fa-icon="faHeadphones"/> Recordings</h2>
         <div class="tags">
           <button
             class="tag"
@@ -27,7 +27,7 @@
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'lyrics'">
-        <h2>🎤 Lyrics</h2>
+        <h2><svg-icon :fa-icon="faMicrophone"/> Lyrics</h2>
         <div
           v-if="song.fields.lyrics"
           v-html="richTextFormat(song.fields.lyrics)"
@@ -37,7 +37,7 @@
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'chords'">
-        <h2>🎼 Chords and Structure</h2>
+        <h2><svg-icon :fa-icon="faMusic"/> Chords and Structure</h2>
         <div
           v-if="song.fields.chordsAndStructure"
           v-html="richTextFormat(song.fields.chordsAndStructure)"
@@ -47,9 +47,18 @@
       </div>
       
       <div v-else>
-        <div class="btn sectionButton" @click="openSection('recordings')"><h2>🎧 Recordings</h2></div>
-        <div class="btn sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
-        <div class="btn sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
+        <div class="btn sectionButton" @click="openSection('recordings')">
+          <div class="icon"><svg-icon :fa-icon="faHeadphones"/></div>
+          <div class="heading"><h2>Recordings</h2></div>
+        </div>
+        <div class="btn sectionButton" @click="openSection('chords')">
+          <div class="icon"><svg-icon :fa-icon="faMusic"/></div>
+          <div class="heading"><h2>Chords</h2></div>
+          </div>
+        <div class="btn sectionButton" @click="openSection('lyrics')">
+          <div class="icon"><svg-icon :fa-icon="faMicrophone"/></div>
+          <div class="heading"><h2> Lyrics</h2></div>
+        </div>
       </div>
       <div style="padding-bottom: 1em"></div>
 
@@ -68,12 +77,18 @@ import Demos from '../components/demos.vue';
 import DemoFiles from '../components/files.vue';
 import Spinner from '../components/Spinner'
 import { mapGetters, mapActions } from 'vuex';
+import { faArrowLeft, faMusic, faHeadphones, faMicrophone } from "@fortawesome/free-solid-svg-icons";
 
 export default {
   components: {
     DemoFiles,
     Demos,
     Spinner,
+  },
+  setup() {
+		return {
+			faArrowLeft, faMusic, faHeadphones, faMicrophone
+    }
   },
   data() {
     return {
@@ -214,4 +229,19 @@ video {
   background: #363636;
   color: #fff;
 }
+
+.sectionButton {
+  display: grid;
+  grid-template-columns: 1fr 4fr 1fr;
+}
+
+.icon {
+  align-self: center;
+}
+
+.heading {
+  align-self: center;
+}
+
+
 </style>
