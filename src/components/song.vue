@@ -3,12 +3,11 @@
     <div v-if="song?.fields">
       <div style="max-width: 1000px;margin: 0 auto; display: flex; justify-content: flex-start; align-items: center">
         <div style="width: 20%">
-          <router-link to="/" class="btn round">🡠</router-link>
+          <router-link :to="$route.query.section ? $route.path : '/'" class="btn round">🡠</router-link>
         </div>
         <h1 style="width: 60%; text-align: center">♬ {{ song.fields.name }}</h1>
         <div style="width: 20%">&nbsp;</div>
       </div>
-      <div class="sectionButton" v-if="$route.query.section" @click="back()"><h2>🡠 Back</h2></div>
 
       <div class="files" v-if="$route.query.section === 'recordings'">
         <h2>🎧 Recordings</h2>
