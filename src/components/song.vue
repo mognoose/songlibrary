@@ -25,11 +25,6 @@
         </div>
 
         <DemoFiles :files="song.fields.demo" :tags="tags" />
-        <!-- <div v-for="file in filesReversed" :key="file.id">
-          <div v-for="tag in tags" :key="tag.name">
-            <Demos v-if="tagSelected(tag.name)" :file="file" :tag="tag.name" />
-          </div>
-        </div> -->
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'lyrics'">
@@ -51,30 +46,19 @@
         ></div>
         <div v-else style="padding-bottom: 1em">No chords</div>
       </div>
-
-      <!-- <div class="lyrics">
-        <h2>🎼 Tabulatures</h2>
-        <div v-if="song.fields.tabs" style="padding-bottom: 1em">
-          <div v-for="tab in song.fields.tabs" :key="tab.id">
-            <a :href="'https://' + tab.fields.file.url">{{
-              tab.fields.title
-            }}</a>
-          </div>
-        </div>
-        <div v-else style="padding-bottom: 1em">No tabulatures</div>
-      </div> -->
       
       <div v-else>
-        <div class="btn sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
         <div class="btn sectionButton" @click="openSection('recordings')"><h2>🎧 Recordings</h2></div>
         <div class="btn sectionButton" @click="openSection('chords')"><h2>🎼 Chords</h2></div>
+        <div class="btn sectionButton" @click="openSection('lyrics')"><h2>🎤 Lyrics</h2></div>
       </div>
       <div style="padding-bottom: 1em"></div>
 
-      <!-- <button @click.prevent="returnHome">Back</button>
-      <pre v-if="song?.fields?.name">{{ song.fields }}</pre> -->
     </div>
-    <div v-else>Song not found</div>
+    <div v-else>
+      <div class="message" v-if="loading"><Spinner /> Loading song...</div>
+      <div class="message" v-else>Song not found</div>
+    </div>
   </div>
 </template>
 
@@ -83,10 +67,14 @@ import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Demos from '../components/demos.vue';
 import DemoFiles from '../components/files.vue';
+import Spinner from '../components/Spinner'
+import { mapGetters, mapActions } from 'vuex';
+
 export default {
   components: {
     DemoFiles,
     Demos,
+    Spinner,
   },
   data() {
     return {
@@ -103,12 +91,17 @@ export default {
     this.fetchSong();
   },
   computed: {
+    ...mapGetters(['loading']),
+
     filesReversed() {
       return this.song.fields.demo.reverse()
     }
   },
   methods: {
+    ...mapActions(['setLoading']),
+
     async fetchSong() {
+      this.setLoading(true);
       const client = createClient({
         space: process.env.VUE_APP_CTF_SPACE_ID,
         accessToken: process.env.VUE_APP_CTF_CDA_ACCESS_TOKEN,
@@ -125,6 +118,7 @@ export default {
       ])
         .then(([song]) => {
           this.song = song.items[0];
+          this.setLoading(false);
         })
         .catch(console.error);
     },
@@ -162,6 +156,7 @@ video {
   white-space: pre-line;
   font-size: 1.2rem;
   padding: 1em;
+  text-align: left;
 }
 .tags {
   display: flex;

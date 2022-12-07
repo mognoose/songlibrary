@@ -189,4 +189,8 @@ th {
 tr:hover {
   background-color: rgba(255, 255, 255, 0.02);
 }
+
+.message {
+  margin-top: 4em;
+}
 </style>
