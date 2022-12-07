@@ -1,7 +1,7 @@
 <template>
   <Navigation />
   <div>
-    <router-view style="min-height: 82.5vh" />
+    <router-view />
   </div>
   <Footer />
 </template>
@@ -65,6 +65,9 @@ body {
   text-align: center;
   color: #a7a7a7;
   background-color: #212121;
+  display: grid;
+  height: 100vh;
+  grid-template-rows: 1fr 8fr 1fr;
 }
 
 a {
