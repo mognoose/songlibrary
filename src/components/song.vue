@@ -78,7 +78,7 @@ export default {
   data() {
     return {
       tags: [
-        { name: 'demo', selected: true },
+        { name: 'demo', selected: false },
         { name: 'riff', selected: false },
         { name: 'rehersalrec', selected: false },
         { name: 'other', selected: false },
@@ -117,6 +117,37 @@ export default {
       ])
         .then(([song]) => {
           this.song = song.items[0];
+          const tagCount = {
+            demo: 0,
+            riff: 0,
+            rehersalrec: 0,
+            other: 0,
+          }
+          song.items[0].fields.demo.forEach(demo => {
+            if(!demo.metadata.tags[0]){
+              tagCount.other++;
+              return
+            }
+            if(demo.metadata.tags[0].sys.id === 'demo'){
+              tagCount.demo++;
+              return
+            }
+            if(demo.metadata.tags[0].sys.id === 'riff'){
+              tagCount.riff++;
+              return
+            }
+            if(demo.metadata.tags[0].sys.id === 'rehersalrec'){
+              tagCount.rehersalrec++;
+              return
+            }
+          });
+          let showTag = 0
+          if(tagCount.demo === 0) showTag++; 
+          if(tagCount.riff === 0 && showTag === 1) showTag++; 
+          if(tagCount.rehersalrec === 0 && showTag === 2) showTag++;
+
+          this.tags[showTag].selected = true;
+
           this.setLoading(false);
         })
         .catch(console.error);
