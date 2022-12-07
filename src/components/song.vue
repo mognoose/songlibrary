@@ -3,7 +3,7 @@
     <div v-if="song?.fields">
       <div style="max-width: 1000px;margin: 0 auto; display: flex; justify-content: flex-start; align-items: center">
         <div style="width: 20%">
-          <a href="/" class="btn round">🡠</a>
+          <router-link to="/" class="btn round">🡠</router-link>
         </div>
         <h1 style="width: 60%; text-align: center">♬ {{ song.fields.name }}</h1>
         <div style="width: 20%">&nbsp;</div>
