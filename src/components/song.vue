@@ -23,7 +23,7 @@
           </button>
         </div>
 
-        <DemoFiles :files="song.fields.demo" :tags="tags" />
+        <DemoFiles :files="filesReversed" :tags="tags" />
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'lyrics'">
