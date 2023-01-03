@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="!list" class="cards">
-      <div v-for="file in files.reverse()" :key="file.id">
+      <div v-for="file in files" :key="file.id">
         <div v-for="tag in tags" :key="tag.name">
           <Demos v-if="tagSelected(tag.name)" :file="file" :tag="tag.name" />
         </div>
