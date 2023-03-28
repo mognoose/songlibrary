@@ -8,10 +8,11 @@
       <div class="profile">
         <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">
           <ul>
-            <li><a href="/add?section=song">ADD SONG</a></li>
-            <li><a href="/add?section=recording">ADD RECORDING</a></li>
+            <li><router-link to="/add?section=song">ADD SONG</router-link></li>
+            <li><router-link to="/add?section=recording">ADD RECORDING</router-link></li>
             <li><a href="#" class="disabled">ADD MEMBER</a></li>
             <hr>
+            <li><router-link to="/help">HELP</router-link></li>
             <li><a href="" @click.prevent="logout()">LOG OUT</a></li>
           </ul>
         </div>
