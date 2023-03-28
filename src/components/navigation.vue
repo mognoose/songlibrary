@@ -21,6 +21,7 @@
             <li><a href="#" class="disabled">ADD RECORDING</a></li>
             <li><a href="#" class="disabled">ADD MEMBER</a></li>
             <hr>
+            <li><router-link to="/help">HELP</router-link></li>
             <li><a :href="authUrl">LOGIN</a></li>
           </ul>
           </div>
@@ -43,6 +44,11 @@ export default {
       authUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id="+process.env.VUE_APP_CTF_CLIENT_ID+"&redirect_uri=https://songlibrary.vercel.app&scope=content_management_manage",
       menuOpen: "",
     };
+  },
+  watch: {
+    $route (to, from) {
+      this.menuOpen = "";
+    }
   },
   methods: {
     ...mapActions(['setUser']),

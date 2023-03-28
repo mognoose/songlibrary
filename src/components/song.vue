@@ -1,16 +1,28 @@
 <template>
   <div>
     <div v-if="song?.fields">
-      <div style="max-width: 1000px;margin: 0 auto; display: flex; justify-content: flex-start; align-items: center">
+      <div
+        style="
+          max-width: 1000px;
+          margin: 0 auto;
+          display: flex;
+          justify-content: flex-start;
+          align-items: center;
+        "
+      >
         <div style="width: 20%">
-          <router-link :to="$route.query.section ? $route.path : '/'" class="btn round"><svg-icon :fa-icon="faArrowLeft" size="34"/></router-link>
+          <router-link
+            :to="$route.query.section ? $route.path : '/'"
+            class="btn round"
+            ><svg-icon :fa-icon="faArrowLeft" size="34"
+          /></router-link>
         </div>
         <h1 style="width: 60%; text-align: center">{{ song.fields.name }}</h1>
         <div style="width: 20%">&nbsp;</div>
       </div>
 
       <div class="files" v-if="$route.query.section === 'recordings'">
-        <h2><svg-icon :fa-icon="faHeadphones"/> Recordings</h2>
+        <h2><svg-icon :fa-icon="faHeadphones" /> Recordings</h2>
         <div class="tags">
           <button
             class="tag"
@@ -27,7 +39,7 @@
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'lyrics'">
-        <h2><svg-icon :fa-icon="faMicrophone"/> Lyrics</h2>
+        <h2><svg-icon :fa-icon="faMicrophone" /> Lyrics</h2>
         <div
           v-if="song.fields.lyrics"
           v-html="richTextFormat(song.fields.lyrics)"
@@ -37,7 +49,7 @@
       </div>
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'chords'">
-        <h2><svg-icon :fa-icon="faMusic"/> Chords and Structure</h2>
+        <h2><svg-icon :fa-icon="faMusic" /> Chords and Structure</h2>
         <div
           v-if="song.fields.chordsAndStructure"
           v-html="richTextFormat(song.fields.chordsAndStructure)"
@@ -45,23 +57,22 @@
         ></div>
         <div v-else style="padding-bottom: 1em">No chords</div>
       </div>
-      
+
       <div v-else>
         <div class="btn sectionButton" @click="openSection('recordings')">
-          <div class="icon"><svg-icon :fa-icon="faHeadphones"/></div>
+          <div class="icon"><svg-icon :fa-icon="faHeadphones" /></div>
           <div class="heading"><h2>Recordings</h2></div>
         </div>
         <div class="btn sectionButton" @click="openSection('chords')">
-          <div class="icon"><svg-icon :fa-icon="faMusic"/></div>
+          <div class="icon"><svg-icon :fa-icon="faMusic" /></div>
           <div class="heading"><h2>Chords</h2></div>
-          </div>
+        </div>
         <div class="btn sectionButton" @click="openSection('lyrics')">
-          <div class="icon"><svg-icon :fa-icon="faMicrophone"/></div>
-          <div class="heading"><h2> Lyrics</h2></div>
+          <div class="icon"><svg-icon :fa-icon="faMicrophone" /></div>
+          <div class="heading"><h2>Lyrics</h2></div>
         </div>
       </div>
       <div style="padding-bottom: 1em"></div>
-
     </div>
     <div v-else>
       <div class="message" v-if="loading"><Spinner /> Loading song...</div>
@@ -71,13 +82,18 @@
 </template>
 
 <script>
-import { createClient } from 'contentful';
-import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
-import Demos from '../components/demos.vue';
-import DemoFiles from '../components/files.vue';
-import Spinner from '../components/Spinner'
-import { mapGetters, mapActions } from 'vuex';
-import { faArrowLeft, faMusic, faHeadphones, faMicrophone } from "@fortawesome/free-solid-svg-icons";
+import { createClient } from "contentful";
+import { documentToHtmlString } from "@contentful/rich-text-html-renderer";
+import Demos from "../components/demos.vue";
+import DemoFiles from "../components/files.vue";
+import Spinner from "../components/Spinner";
+import { mapGetters, mapActions } from "vuex";
+import {
+  faArrowLeft,
+  faMusic,
+  faHeadphones,
+  faMicrophone,
+} from "@fortawesome/free-solid-svg-icons";
 
 export default {
   components: {
@@ -86,17 +102,20 @@ export default {
     Spinner,
   },
   setup() {
-		return {
-			faArrowLeft, faMusic, faHeadphones, faMicrophone
-    }
+    return {
+      faArrowLeft,
+      faMusic,
+      faHeadphones,
+      faMicrophone,
+    };
   },
   data() {
     return {
       tags: [
-        { name: 'demo', selected: false },
-        { name: 'riff', selected: false },
-        { name: 'rehersalrec', selected: false },
-        { name: 'other', selected: false },
+        { name: "demo", selected: false },
+        { name: "riff", selected: false },
+        { name: "rehersalrec", selected: false },
+        { name: "other", selected: false },
       ],
       song: {},
     };
@@ -105,14 +124,14 @@ export default {
     this.fetchSong();
   },
   computed: {
-    ...mapGetters(['loading']),
+    ...mapGetters(["loading"]),
 
     filesReversed() {
-      return this.song.fields.demo.reverse()
-    }
+      return this.song.fields.demo.reverse();
+    },
   },
   methods: {
-    ...mapActions(['setLoading']),
+    ...mapActions(["setLoading"]),
 
     async fetchSong() {
       this.setLoading(true);
@@ -123,11 +142,10 @@ export default {
       return Promise.all([
         // fetch song by slug
         client.getEntries({
-          content_type: 'song',
-          'fields.slug[in]': this.$route.params.song,
-          order: '-sys.createdAt',
-          include: 4
-
+          content_type: "song",
+          "fields.slug[in]": this.$route.params.song,
+          order: "sys.createdAt",
+          include: 4,
         }),
       ])
         .then(([song]) => {
@@ -137,29 +155,29 @@ export default {
             riff: 0,
             rehersalrec: 0,
             other: 0,
-          }
-          song.items[0].fields.demo.forEach(demo => {
-            if(!demo.metadata.tags[0]){
+          };
+          song.items[0].fields.demo.forEach((demo) => {
+            if (!demo.metadata.tags[0]) {
               tagCount.other++;
-              return
+              return;
             }
-            if(demo.metadata.tags[0].sys.id === 'demo'){
+            if (demo.metadata.tags[0].sys.id === "demo") {
               tagCount.demo++;
-              return
+              return;
             }
-            if(demo.metadata.tags[0].sys.id === 'riff'){
+            if (demo.metadata.tags[0].sys.id === "riff") {
               tagCount.riff++;
-              return
+              return;
             }
-            if(demo.metadata.tags[0].sys.id === 'rehersalrec'){
+            if (demo.metadata.tags[0].sys.id === "rehersalrec") {
               tagCount.rehersalrec++;
-              return
+              return;
             }
           });
-          let showTag = 0
-          if(tagCount.demo === 0) showTag++; 
-          if(tagCount.riff === 0 && showTag === 1) showTag++; 
-          if(tagCount.rehersalrec === 0 && showTag === 2) showTag++;
+          let showTag = 0;
+          if (tagCount.demo === 0) showTag++;
+          if (tagCount.riff === 0 && showTag === 1) showTag++;
+          if (tagCount.rehersalrec === 0 && showTag === 2) showTag++;
 
           this.tags[showTag].selected = true;
 
@@ -182,10 +200,10 @@ export default {
       return tagName[0].selected;
     },
     openSection(section) {
-      this.$router.push('?section='+section)
+      this.$router.push("?section=" + section);
     },
     back() {
-      this.$router.replace({'query': null})
+      this.$router.replace({ query: null });
     },
   },
 };
@@ -242,6 +260,4 @@ video {
 .heading {
   align-self: center;
 }
-
-
 </style>
