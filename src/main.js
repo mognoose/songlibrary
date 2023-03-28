@@ -6,7 +6,7 @@ import 'core-js/stable'; // only stable feature also is possible with only `core
 import 'regenerator-runtime/runtime'; // To ensure that regeneratorRuntime is defined globally
 import SvgIcon from "vue3-icon";
 
-import VueLuxon from "vue-luxon";
+import VueSocialSharing from "vue-social-sharing";
 const { DateTime } = require("luxon");
 
 // library.add(faUserSecret)
@@ -17,6 +17,7 @@ app.config.globalProperties.$version = 'ALPHA 0.3.2';
 
 app.use(store)
   .use(router)
+  .use(VueSocialSharing)
   .component("svg-icon", SvgIcon)
   .mount('#app');
 

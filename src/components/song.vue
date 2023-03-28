@@ -18,7 +18,18 @@
           /></router-link>
         </div>
         <h1 style="width: 60%; text-align: center">{{ song.fields.name }}</h1>
-        <div style="width: 20%">&nbsp;</div>
+        <div style="width: 20%">
+          <ShareNetwork
+            class="btn round"
+            style="margin-left: auto;"
+            network="whatsapp"
+            :url="urlShare()"
+            :title="song.fields.name"
+            :description="$route.query.section || 'Songlibrary'"
+          >
+            <svg-icon :fa-icon="faWhatsapp" size="34" />
+          </ShareNetwork>
+        </div>
       </div>
 
       <div class="files" v-if="$route.query.section === 'recordings'">
@@ -94,6 +105,9 @@ import {
   faHeadphones,
   faMicrophone,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  faWhatsapp
+} from "@fortawesome/free-brands-svg-icons";
 
 export default {
   components: {
@@ -107,6 +121,7 @@ export default {
       faMusic,
       faHeadphones,
       faMicrophone,
+      faWhatsapp,
     };
   },
   data() {
@@ -205,6 +220,9 @@ export default {
     back() {
       this.$router.replace({ query: null });
     },
+    urlShare(){
+      return window.location+this.$route.path
+    }
   },
 };
 </script>
