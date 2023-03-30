@@ -19,7 +19,7 @@
             :key="tag.name"
             :class="tag.selected ? 'selectedTag' : 'unselectedTag'"
           >
-            {{ tag.name }}
+             {{ tag.name }} <span class="badge">{{tagCount[tag.name]}}</span>
           </button>
         </div>
 
@@ -98,6 +98,7 @@ export default {
         { name: 'rehersalrec', selected: false },
         { name: 'other', selected: false },
       ],
+      tagCount: {},
       song: {},
     };
   },
@@ -163,6 +164,8 @@ export default {
 
           this.tags[showTag].selected = true;
 
+          this.tagCount = tagCount;
+
           this.setLoading(false);
         })
         .catch(console.error);
@@ -212,6 +215,7 @@ video {
   cursor: pointer;
   margin: 0.5em;
   padding: 0.5em;
+  padding-left: 0.75em;
   border: 0px;
   border-radius: 1em;
   background: none;
@@ -241,6 +245,15 @@ video {
 
 .heading {
   align-self: center;
+}
+
+.badge {
+  display: inline-block;
+  border-radius: 50%;
+  background: #666;
+  color: #2f2f2f;
+  height: 15px;
+  width: 15px;
 }
 
 
