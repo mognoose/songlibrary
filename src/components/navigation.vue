@@ -8,10 +8,11 @@
       <div class="profile">
         <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">
           <ul>
-            <li><a href="/add?section=song">ADD SONG</a></li>
-            <li><a href="/add?section=recording">ADD RECORDING</a></li>
+            <li><router-link to="/add?section=song">ADD SONG</router-link></li>
+            <li><router-link to="/add?section=recording">ADD RECORDING</router-link></li>
             <li><a href="#" class="disabled">ADD MEMBER</a></li>
             <hr>
+            <li><router-link to="/help">HELP</router-link></li>
             <li><a href="" @click.prevent="logout()">LOG OUT</a></li>
           </ul>
         </div>
@@ -21,6 +22,7 @@
             <li><a href="#" class="disabled">ADD RECORDING</a></li>
             <li><a href="#" class="disabled">ADD MEMBER</a></li>
             <hr>
+            <li><router-link to="/help">HELP</router-link></li>
             <li><a :href="authUrl">LOGIN</a></li>
           </ul>
           </div>
@@ -43,6 +45,11 @@ export default {
       authUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id="+process.env.VUE_APP_CTF_CLIENT_ID+"&redirect_uri=https://songlibrary.vercel.app&scope=content_management_manage",
       menuOpen: "",
     };
+  },
+  watch: {
+    $route (to, from) {
+      this.menuOpen = "";
+    }
   },
   methods: {
     ...mapActions(['setUser']),
