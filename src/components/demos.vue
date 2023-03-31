@@ -62,8 +62,11 @@ export default {
 
 <style lang="scss" scoped>
 .demo {
-  max-width: 80%;
+  max-width: 80vw;
   overflow: hidden;
+  h3{
+    max-width: 100%;
+  }
 }
 video {
   margin-left: 0px;
