@@ -77,7 +77,7 @@
         >
           <table>
             <tr v-for="link in song.fields.links" :key="link.sys.id">
-              <td><a :href="link.fields.url">{{ link.fields.title }} - {{ link.fields.url }}</a></td>
+              <td><div><a :href="link.fields.url" target="_Blank">{{ link.fields.title }} - {{ link.fields.url }}</a></div></td>
             </tr>
           </table>
         </div>
@@ -312,6 +312,14 @@ video {
   height: 15px;
   width: 15px;
 }
-
+td{
+  div{
+    width: 80vw;
+    max-width: 800px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
 
 </style>
