@@ -1,9 +1,11 @@
 <template>
   <nav>
-    <div class="flex">
+    <div class="navContainer">
       <div class="logo">
         <router-link to="/"><h1>Songlibrary</h1></router-link>
       </div>
+
+      <player />
 
       <div class="profile">
         <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">
@@ -25,7 +27,7 @@
             <li><router-link to="/help">HELP</router-link></li>
             <li><a :href="authUrl">LOGIN</a></li>
           </ul>
-          </div>
+        </div>
         <div class="profileButton" v-if="user.token" @click="openMenu('loggedIn')"><img :src="user.avatarUrl"></div>
         <div class="profileButton" v-else @click="openMenu('loggedOut')"><img src="./../assets/icons/user.svg"></div>
       </div>
@@ -34,17 +36,21 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters, mapActions, mapMutations } from 'vuex';
+import player from '@/components/player.vue';
 
 export default {
-  computed: {
-    ...mapGetters(['user'])
+  components: {
+    player,
   },
   data() {
     return {
       authUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id="+process.env.VUE_APP_CTF_CLIENT_ID+"&redirect_uri=https://songlibrary.vercel.app&scope=content_management_manage",
       menuOpen: "",
     };
+  },
+  computed: {
+    ...mapGetters(['user']),
   },
   watch: {
     $route (to, from) {
@@ -81,16 +87,26 @@ nav {
   margin: 0px;
   padding: 1em;
 }
-.flex {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
+.navContainer {
+  display: grid;
+  grid-template-columns: 1fr 8fr 1fr;
+  grid-template-rows: 1fr;
+  @media only screen and (max-width: 600px) {
+    
+    .player {
+      grid-row-start: 2;
+      grid-column-start: 1;
+      grid-column-end: 3;
+      widows: 100%;
+    }
+
+    .profile {
+      grid-column-start: 3;
+    }
+  }
 }
-.profile,
-.menu,
-.logo {
-  display: inline-block;
-  width: 30%;
+.profile{
+      grid-column-start: 3;
 }
 .dropDownMenu{
   position: absolute;
@@ -128,16 +144,8 @@ li a:hover{
 hr {
   border: 1px solid #212121
 }
-.logo{
-  display: flex;
-  justify-content: flex-start;
-}
-.profile{
-  display: flex;
-  justify-content: flex-end;
-}
 .profileButton{
-  max-width: 4em;
+  width: 4em;
   border-radius: 50%;
 }
 .profileButton img{

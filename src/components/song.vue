@@ -32,7 +32,7 @@
         </div>
       </div>
 
-      <div class="files" v-if="$route.query.section === 'recordings'">
+      <div v-if="$route.query.section === 'recordings'">
         <h2><svg-icon :fa-icon="faHeadphones" /> Recordings</h2>
         <div class="tags">
           <button
@@ -128,8 +128,8 @@ export default {
     return {
       tags: [
         { name: "demo", selected: false },
-        { name: "riff", selected: false },
         { name: "rehersalrec", selected: false },
+        { name: "riff", selected: false },
         { name: "other", selected: false },
       ],
       tagCount: {},
