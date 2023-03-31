@@ -69,6 +69,21 @@
         <div v-else style="padding-bottom: 1em">No chords</div>
       </div>
 
+      <div class="btn lyrics" v-else-if="$route.query.section === 'links'">
+        <h2><svg-icon :fa-icon="faLink" /> Links</h2>
+        <div
+          v-if="song.fields.links"
+          class="lyricsbody"
+        >
+          <table>
+            <tr v-for="link in song.fields.links" :key="link.sys.id">
+              <td><div><a :href="link.fields.url" target="_Blank">{{ link.fields.title }} - {{ link.fields.url }}</a></div></td>
+            </tr>
+          </table>
+        </div>
+        <div v-else style="padding-bottom: 1em">No links</div>
+      </div>
+
       <div v-else>
         <div class="btn sectionButton" @click="openSection('recordings')">
           <div class="icon"><svg-icon :fa-icon="faHeadphones" /></div>
@@ -81,6 +96,10 @@
         <div class="btn sectionButton" @click="openSection('lyrics')">
           <div class="icon"><svg-icon :fa-icon="faMicrophone" /></div>
           <div class="heading"><h2>Lyrics</h2></div>
+        </div>
+        <div class="btn sectionButton" @click="openSection('links')">
+          <div class="icon"><svg-icon :fa-icon="faLink" /></div>
+          <div class="heading"><h2>Links</h2></div>
         </div>
       </div>
       <div style="padding-bottom: 1em"></div>
@@ -104,6 +123,7 @@ import {
   faMusic,
   faHeadphones,
   faMicrophone,
+  faLink,
 } from "@fortawesome/free-solid-svg-icons";
 import {
   faWhatsapp
@@ -122,6 +142,7 @@ export default {
       faHeadphones,
       faMicrophone,
       faWhatsapp,
+      faLink,
     };
   },
   data() {
@@ -291,6 +312,14 @@ video {
   height: 15px;
   width: 15px;
 }
-
+td{
+  div{
+    width: 80vw;
+    max-width: 800px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+}
 
 </style>
