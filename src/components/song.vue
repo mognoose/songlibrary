@@ -69,7 +69,7 @@
         <div v-else style="padding-bottom: 1em">No chords</div>
       </div>
 
-      <div class="btn lyrics" v-else-if="$route.query.section === 'links'">
+      <div v-else-if="$route.query.section === 'links'">
         <h2><svg-icon :fa-icon="faLink" /> Links</h2>
         <div
           v-if="song.fields.links"
