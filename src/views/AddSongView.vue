@@ -207,7 +207,7 @@ export default {
       this.setLoading(true);
       console.log("UPLOADING...");
       try{
-        const environment = await this.getEnvironment("master");
+        const environment = await this.getEnvironment(process.env.VUE_APP_CTF_ENVIRONMENT);
         const file = this.$refs.file.files[0]
 
         /**
@@ -270,7 +270,7 @@ export default {
 
       try {
         if (!this.song.name && !this.song.id) throw 'Song name is required'
-        const environment = await this.getEnvironment("master");
+        const environment = await this.getEnvironment(process.env.VUE_APP_CTF_ENVIRONMENT);
         const file = this.$refs.file.files[0]
       
         /**
@@ -315,7 +315,7 @@ export default {
     },
     async addFile() {
       try {
-        const environment = await this.getEnvironment("master");
+        const environment = await this.getEnvironment(process.env.VUE_APP_CTF_ENVIRONMENT);
 
         var recording = await this.upload()
 

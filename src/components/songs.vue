@@ -49,6 +49,7 @@ export default {
       const client = createClient({
         space: process.env.VUE_APP_CTF_SPACE_ID,
         accessToken: process.env.VUE_APP_CTF_CDA_ACCESS_TOKEN,
+        environment: process.env.VUE_APP_CTF_ENVIRONMENT,
       });
 
       return Promise.all([
