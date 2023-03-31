@@ -202,4 +202,72 @@ export default {
   color: #a7a7a7;
   cursor: pointer;
 }
+
+/********** Range Input Styles **********/
+/*Range Reset*/
+input[type="range"] {
+   -webkit-appearance: none;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+    width: 15rem;
+    border: 0;
+}
+
+/* Removes default focus */
+input[type="range"]:focus {
+  outline: none;
+}
+
+/***** Chrome, Safari, Opera and Edge Chromium styles *****/
+/* slider track */
+input[type="range"]::-webkit-slider-runnable-track {
+   background-color: #212121;
+   border-radius: 0.5rem;
+   height: 0.5rem;  
+}
+
+/* slider thumb */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; /* Override default look */
+   appearance: none;
+   margin-top: -12px; /* Centers thumb on the track */
+
+   /*custom styles*/
+   background-color: #666;
+   margin-top: -.25rem;
+   height: 1rem;
+   width: 1rem;
+   border-radius: 50%;
+
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {   
+  outline-offset: 0.125rem;
+  box-shadow: 0 0 6px 2px rgba(255,255,255, .75);
+}
+
+/******** Firefox styles ********/
+/* slider track */
+input[type="range"]::-moz-range-track {
+   background-color: #212121;
+   border-radius: 0.5rem;
+   height: 0.5rem;
+}
+
+/* slider thumb */
+input[type="range"]::-moz-range-thumb {
+   border: none; /*Removes extra border that FF applies*/
+   border-radius: 0; /*Removes default border-radius that FF applies*/
+
+   /*custom styles*/
+   background-color: #666;
+   height: 2rem;
+   width: 1rem;
+}
+
+input[type="range"]:focus::-moz-range-thumb {
+  box-shadow: 0 0 6px 2px rgba(255,255,255, .75);
+  outline-offset: 0.125rem; 
+}
 </style>
