@@ -11,7 +11,6 @@
       <a class="btn round" @click.prevent="playerAction('play')" v-if="playerSource.title !== file.fields.title || playerSource.status !== 'play'"><svg-icon :fa-icon="faPlay" size="34" /></a>
       <a class="btn round" @click.prevent="playerAction('pause')" v-if="playerSource.title === file.fields.title && playerSource.status === 'play'"><svg-icon :fa-icon="faPause" size="34" /></a>
     </div>
-    <pre>{{file?.fields?.file?.contentType}}</pre>
   </div>
 </template>
 
