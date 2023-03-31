@@ -1,5 +1,5 @@
 <template>
-  <div v-show="playerSource.url">
+  <div class="player-container" v-show="playerSource.url">
 
     <div class="player" v-if="playerSource.contentType === 'audio/mpeg'">
       <div>
@@ -8,7 +8,7 @@
       <div>
         {{ timeLabel }} | {{ playerSource.title }}
         <input
-          style="max-width: 90%"
+          style="max-width: 80%"
           type="range"
           :min="0"
           :max="duration"

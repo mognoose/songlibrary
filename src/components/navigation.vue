@@ -93,10 +93,10 @@ nav {
   grid-template-rows: 1fr;
   @media only screen and (max-width: 600px) {
     
-    .player {
+    .player-container {
       grid-row-start: 2;
       grid-column-start: 1;
-      grid-column-end: 3;
+      grid-column-end: 4;
       widows: 100%;
     }
 
