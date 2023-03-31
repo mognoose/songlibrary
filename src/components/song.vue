@@ -245,7 +245,7 @@ export default {
       this.$router.replace({ query: null });
     },
     urlShare(){
-      return window.location+this.$route.path
+      return window.location
     }
   },
 };

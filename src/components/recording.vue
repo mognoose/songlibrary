@@ -5,6 +5,7 @@
         <div style="width: 20%">
           <router-link :to="'/'+$route.params.song+'?section=recordings'" class="btn round"><svg-icon :fa-icon="faArrowLeft" size="34"/></router-link>
         </div>
+        
         <div style="width: 60%">&nbsp;</div>
         <div style="width: 20%">
           <ShareNetwork
@@ -82,7 +83,7 @@ export default {
       return documentToHtmlString(text);
     },
     urlShare(){
-      return window.location+this.$route.path
+      return window.location
     },
     dateFormat(date) {
       return this.$luxonDateTime.fromISO(date).setLocale('fi-fi').toLocaleString()
