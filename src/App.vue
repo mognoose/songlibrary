@@ -204,4 +204,8 @@ tr:hover {
 .message {
   margin-top: 4em;
 }
+
+.round {
+  margin: 1rem;
+}
 </style>

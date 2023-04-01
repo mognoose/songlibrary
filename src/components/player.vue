@@ -1,22 +1,24 @@
 <template>
   <div class="player-container" v-show="playerSource.url">
 
-    <div class="player" v-if="playerSource.contentType === 'audio/mpeg'">
-      <div>
-        <a class="btn round" @click.prevent="play()"><svg-icon :fa-icon="playerSource.status === 'play' ? faPause : faPlay" size="34" /></a>
+    <div class="audio" v-if="playerSource.contentType === 'audio/mpeg'">
+      <div class="player">
+        <div>
+          <a class="btn round" @click.prevent="play()"><svg-icon :fa-icon="playerSource.status === 'play' ? faPause : faPlay" size="34" /></a>
+        </div>
+        <div>
+          <p>{{ playerSource.title }}</p>
+          <input
+            type="range"
+            :min="0"
+            :max="duration"
+            v-model="currentTime"
+            @input="updateTime"
+          >
+          <p>{{ timeLabel }} / {{ durationLabel === 'NaN:NaN' ? '00:00' : durationLabel }}</p>
+        </div>
+        <button class="closeButton" @click="closePlayer()"><svg-icon :fa-icon="faXmark" size="34" /></button>
       </div>
-      <div>
-        {{ timeLabel }} | {{ playerSource.title }}
-        <input
-          style="max-width: 80%"
-          type="range"
-          :min="0"
-          :max="duration"
-          v-model="currentTime"
-          @input="updateTime"
-        >
-      </div>
-      <button class="closeButton" @click="closePlayer()"><svg-icon :fa-icon="faXmark" size="34" /></button>
     </div>
 
     <div v-else-if="playerSource.contentType === 'video/mp4'" class="video">
@@ -52,7 +54,8 @@ export default {
       player: null,
       duration: 0,
       currentTime: 0,
-      timeLabel: '00:00'
+      timeLabel: '00:00',
+      durationLabel: '00:00'
     };
   },
   computed: {
@@ -135,6 +138,15 @@ export default {
       this.player.currentTime = this.currentTime;
     },
     timeupdate() {
+      if(!this.duration || this.duration !== this.player.duration) {
+        console.log('updating duration'+this.player.duration);
+        this.duration = this.player.duration;
+        const dhr = Math.floor(this.duration / 3600);
+        const dmin = Math.floor((this.duration - (dhr * 3600)) / 60);
+        const dsec = Math.floor(this.duration - (dhr * 3600) - (dmin * 60));
+        this.durationLabel = `${dmin.toString().padStart(2, '0')}:${dsec.toString().padStart(2, '0')}`;
+      }
+
       this.currentTime = this.player.currentTime;
       const hr = Math.floor(this.currentTime / 3600);
       const min = Math.floor((this.currentTime - (hr * 3600)) / 60);
@@ -156,13 +168,38 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+
+.audio {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background-color: #121212;
+  padding: 1rem;
+  z-index: 200;
+}
 .player {
+  position: sticky;
   display: grid;
   grid-template-columns: 2fr 6fr 2fr;
   align-items: center;
   justify-items: center;
-  max-width: 600px;
   margin: 0 auto;
+  padding: 0;
+  div:nth-child(2){
+    margin-right: 2rem;
+
+    input {
+      width: 100%;
+      margin: 0;
+      padding: .75rem 0;
+    }
+
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }
 }
 
 .round {
@@ -210,7 +247,6 @@ input[type="range"] {
     appearance: none;
     background: transparent;
     cursor: pointer;
-    width: 15rem;
     border: 0;
 }
 
