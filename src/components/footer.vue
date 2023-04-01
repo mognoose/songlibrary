@@ -4,13 +4,21 @@
       <div class="logo">
         <a href="https://be.contentful.com/login">Contentful</a>
       </div>
-      <div class="profile">{{ $version }}</div>
+      <div class="profile"><small>Version {{ version }}</small></div>
     </div>
   </footer>
 </template>
 
 <script>
-export default {};
+import { version } from "../../package.json";
+
+export default {
+  data() {
+    return {
+      version: version
+    }
+  },
+};
 </script>
 
 <style lang="scss" scoped>
