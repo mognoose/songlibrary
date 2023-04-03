@@ -182,12 +182,14 @@ export default {
   position: sticky;
   display: grid;
   grid-template-columns: 2fr 6fr 2fr;
+  gap: 1rem;
   align-items: center;
   justify-items: center;
   margin: 0 auto;
   padding: 0;
   div:nth-child(2){
-    margin-right: 2rem;
+    width: 100%;
+    margin: 0 2rem;
 
     input {
       width: 100%;
