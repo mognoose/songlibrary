@@ -1,5 +1,5 @@
 <template>
-  <div class="player-container" v-show="playerSource.url">
+  <div class="player-container" :class="{'winamp':wa}" v-show="playerSource.url">
 
     <div class="audio" v-if="playerSource.contentType === 'audio/mpeg'">
       <div class="player">
@@ -7,7 +7,7 @@
           <a class="btn round" @click.prevent="play()"><svg-icon :fa-icon="playerSource.status === 'play' ? faPause : faPlay" size="34" /></a>
         </div>
         <div>
-          <p>{{ playerSource.title }}</p>
+          <p @dblclick="toggleWA()">{{ playerSource.title }}</p>
           <input
             type="range"
             :min="0"
@@ -55,7 +55,8 @@ export default {
       duration: 0,
       currentTime: 0,
       timeLabel: '00:00',
-      durationLabel: '00:00'
+      durationLabel: '00:00',
+      wa: false,
     };
   },
   computed: {
@@ -162,6 +163,9 @@ export default {
 
       } 
 
+    },
+    toggleWA(){
+      this.wa = !this.wa
     }
   }
 };
@@ -170,6 +174,7 @@ export default {
 <style lang="scss" scoped>
 
 .audio {
+  transition: 1s;
   position: fixed;
   bottom: 0;
   left: 0;
@@ -177,6 +182,13 @@ export default {
   background-color: #121212;
   padding: 1rem;
   z-index: 200;
+  animation-duration: 0.5s;
+  animation-name: animate-pull-up;
+  animation-delay: 0;
+}
+@keyframes animate-pull-up {
+  0% { bottom: -200px; }
+  100% { bottom: 0; }
 }
 .player {
   position: sticky;
@@ -198,6 +210,8 @@ export default {
     }
 
     p {
+      user-select: none;
+      cursor: pointer;
       margin: 0;
       padding: 0;
     }
@@ -269,7 +283,7 @@ input[type="range"]::-webkit-slider-runnable-track {
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none; /* Override default look */
    appearance: none;
-   margin-top: -12px; /* Centers thumb on the track */
+   margin-top: 0; /* Centers thumb on the track */
 
    /*custom styles*/
    background-color: #666;
@@ -300,12 +314,187 @@ input[type="range"]::-moz-range-thumb {
 
    /*custom styles*/
    background-color: #666;
-   height: 2rem;
+   margin-top: -.25rem;
+   height: 1rem;
    width: 1rem;
+   border-radius: 50%;
 }
 
 input[type="range"]:focus::-moz-range-thumb {
   box-shadow: 0 0 6px 2px rgba(255,255,255, .75);
   outline-offset: 0.125rem; 
 }
+
+
+
+
+/********** Winamp Easter Egg **********/
+
+
+
+.winamp {
+  position: relative;
+
+  .audio {
+    margin-bottom: 10px;
+    background-color: rgba(0,0,0,0.0);
+    background-image: url('~@/assets/winamp.jpg');
+    background-position: center;
+    background-position-y: -2px;
+    background-repeat: no-repeat;
+    background-size: auto 200px;
+    height: 200px;
+    padding: 0;
+
+    .player {
+      box-shadow: 0px 0px 10px 2px rgba(0,0,0,0.5);
+      width: 470px;
+      height: 200px;
+    }
+
+    p{
+      background: #000;
+      color: lime;
+    }
+
+    p:nth-child(1){
+      position: absolute;
+      top: 42px;
+      left:185px;
+      width: 270px;
+      user-select: none;
+    }
+
+    p:nth-child(3){
+      position: absolute;
+      top: 38px;
+      left: 80px;
+      width: 90px;
+      height: 40px;
+      font-size: 2.25rem;
+      overflow: hidden;
+    }
+
+    input{
+      position: absolute;
+      top: 109px;
+      left: 7px;
+      padding: 130px;
+    }
+
+    .btn {
+      position: absolute;
+      top: 153px;
+      left: 70px;
+      height: 20px;
+      border-radius: 0;
+      border: 1px solid lime;
+      opacity: 0;
+      
+    }
+
+    .closeButton{
+      position: absolute;
+      top: -3px;
+      right: 22px;
+      width: 10px;
+      height: 10px;
+      opacity: 0;
+    }
+
+    /********** Range Input Styles **********/
+    /*Range Reset*/
+    input[type="range"] {
+      -webkit-appearance: none;
+        appearance: none;
+        background: transparent;
+        cursor: pointer;
+        border: 0;
+    }
+
+    /* Removes default focus */
+    input[type="range"]:focus {
+      outline: none;
+    }
+
+    /***** Chrome, Safari, Opera and Edge Chromium styles *****/
+    /* slider track */
+    input[type="range"]::-webkit-slider-runnable-track {
+      background-color: rgb(34,34,58);
+      border-top: 3px solid #010015;
+      border-left: 3px solid #010015;
+      border-bottom: 3px solid #6E748D;
+      border-right: 3px solid #6E748D;
+      height: 18px;
+      margin-left: 20px;
+      margin-right: 25px;
+      padding: 3px;
+      border-radius: 0;
+    }
+
+    /* slider thumb */
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+      appearance: none;
+      margin-top: -15px; /* Centers thumb on the track */
+
+      /*custom styles*/
+      background-color: #666;
+      margin-top: -.25rem;
+      width: 60px;
+      border-radius: 0;
+      background-image: url('~@/assets/winamp.jpg');
+      background-repeat: no-repeat;
+      background-position-x: -55px;
+      background-position-y: -150px;
+
+    }
+
+    input[type="range"]:focus::-webkit-slider-thumb {   
+      outline-offset: 0.125rem;
+      box-shadow: 0 0 6px 2px rgba(255,255,255, .75);
+    }
+
+    /******** Firefox styles ********/
+    /* slider track */
+    input[type="range"]::-moz-range-track {
+      background-color: rgb(34,34,58);
+      border-top: 3px solid #010015;
+      border-left: 3px solid #010015;
+      border-bottom: 3px solid #6E748D;
+      border-right: 3px solid #6E748D;
+      box-sizing: border-box;
+      height: 8px;
+      width: 380px;
+      margin-left: 40px;
+      padding: 6px;
+      border-radius: 0;
+    }
+
+    /* slider thumb */
+    input[type="range"]::-moz-range-thumb {
+      border: none; /*Removes extra border that FF applies*/
+      border-radius: 0; /*Removes default border-radius that FF applies*/
+      appearance: none;
+      margin-top: -15px; /* Centers thumb on the track */
+      /*custom styles*/
+      background-color: #666;
+      margin-top: -.25rem;
+      width: 60px;
+      border-radius: 0;
+      background-image: url('~@/assets/winamp.jpg');
+      background-repeat: no-repeat;
+      background-position-x: -55px;
+      background-position-y: -150px;
+      height: 20px;
+    }
+
+    input[type="range"]:focus::-moz-range-thumb {
+      box-shadow: 0 0 6px 2px rgba(255,255,255, .75);
+      outline-offset: 0.125rem; 
+    }
+
+  }
+}
+
 </style>
