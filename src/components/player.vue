@@ -334,6 +334,9 @@ input[type="range"]:focus::-moz-range-thumb {
 
 .winamp {
   position: relative;
+  animation-name: fade-in;
+  animation-duration: 7.5s;
+  animation-delay: 5;
 
   .audio {
     margin-bottom: 10px;
@@ -496,5 +499,8 @@ input[type="range"]:focus::-moz-range-thumb {
 
   }
 }
-
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 100; }
+}
 </style>

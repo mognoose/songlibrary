@@ -276,7 +276,7 @@ export default {
          */
         var asset = await environment.createAssetFromFiles({
           fields: {
-            title: {
+            name: {
               "en-US": this.song.recording.name || file.name,
             },
             description: {
