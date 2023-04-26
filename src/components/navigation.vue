@@ -111,9 +111,12 @@ nav {
   top: 7em;
   right: 1em;  
   padding: 2em;
-  background-color: #121212;
+  background-color: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(10px);
   min-width: 10em;
   min-height: 10em;
+  z-index: 200;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
 }
 .dropDownMenu ul{
   list-style-type: none;
