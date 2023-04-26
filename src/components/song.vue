@@ -61,7 +61,7 @@
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'chords'">
         <h2><svg-icon :fa-icon="faMusic" /> Chords and Structure</h2>
-        <div v-if="song.fields.chords?.length > 0">
+        <div v-if="song.fields?.chords?.length > 0">
           <button
               class="tag"
               v-for="instrument in song.fields.chords"
@@ -73,8 +73,8 @@
             </button>
           <div v-for="chords in song.fields.chords">
             <div
-              v-if="$route.query.instrument === chords.fields.instrument"
-              v-html="richTextFormat(song.fields.chordsAndStructure)"
+              v-if="$route.query.instrument == chords.fields.instrument"
+              v-html="richTextFormat(chords.fields.chords)"
               class="lyricsbody"
             ></div>
           </div>
