@@ -23,7 +23,7 @@
             class="btn round"
             style="margin-left: auto;"
             network="whatsapp"
-            :url="urlShare()"
+            :url="urlShare().toString()"
             :title="song.fields.name"
             :description="$route.query.section || 'Songlibrary'"
           >
@@ -61,8 +61,26 @@
 
       <div class="btn lyrics" v-else-if="$route.query.section === 'chords'">
         <h2><svg-icon :fa-icon="faMusic" /> Chords and Structure</h2>
+        <div v-if="song.fields.chords?.length > 0">
+          <button
+              class="tag"
+              v-for="instrument in song.fields.chords"
+              @click="selectInstrument(instrument.fields.instrument)"
+              :key="instrument.sys.id"
+              :class="$route.query.instrument === instrument.fields.instrument ? 'selectedTag' : 'unselectedTag'"
+            >
+              {{ instrument.fields.instrument }}
+            </button>
+          <div v-for="chords in song.fields.chords">
+            <div
+              v-if="$route.query.instrument === chords.fields.instrument"
+              v-html="richTextFormat(song.fields.chordsAndStructure)"
+              class="lyricsbody"
+            ></div>
+          </div>
+        </div>
         <div
-          v-if="song.fields.chordsAndStructure"
+          v-else-if="song.fields.chordsAndStructure"
           v-html="richTextFormat(song.fields.chordsAndStructure)"
           class="lyricsbody"
         ></div>
@@ -246,6 +264,9 @@ export default {
     },
     urlShare(){
       return window.location
+    },
+    selectInstrument(instrument) {
+      this.$router.push({ params: this.$router.params, query: {section: "chords", instrument} })      
     }
   },
 };

@@ -10,9 +10,8 @@
       <div class="profile">
         <div class="dropDownMenu" v-if="menuOpen==='loggedIn'">
           <ul>
-            <li><router-link to="/add?section=song">ADD SONG</router-link></li>
-            <li><router-link to="/add?section=recording">ADD RECORDING</router-link></li>
-            <li><a href="#" class="disabled">ADD MEMBER</a></li>
+            <li><a href="https://app.contentful.com/spaces/ah7qwd6nxb6z/entries/3INXQN0afxT2ylK0qXMAlL" to="/add?section=song">ADD SONG</a></li>
+            <li><a href="https://app.contentful.com/spaces/ah7qwd6nxb6z/entries?id=MYiI3GAMD3W9JYhE&contentTypeId=song&order.fieldId=updatedAt&order.direction=descending&displayedFieldIds=contentType&displayedFieldIds=updatedAt&displayedFieldIds=author&displayedFieldIds=createdAt&displayedFieldIds=createdBy&displayedFieldIds=jMcaJZN6fldjdEjf&roles=6nrC6mqyOoaTwH2jq9V0Kx&folderId=default&page=0" to="/add?section=recording">ADD RECORDING</a></li>
             <hr>
             <li><router-link to="/help">HELP</router-link></li>
             <li><a href="" @click.prevent="logout()">LOG OUT</a></li>
@@ -20,9 +19,8 @@
         </div>
         <div class="dropDownMenu" v-if="menuOpen==='loggedOut'">
           <ul>
-            <li><a href="#" class="disabled">ADD SONG</a></li>
-            <li><a href="#" class="disabled">ADD RECORDING</a></li>
-            <li><a href="#" class="disabled">ADD MEMBER</a></li>
+            <li><a href="https://be.contentful.com/login">ADD SONG</a></li>
+            <li><a href="https://be.contentful.com/login">ADD RECORDING</a></li>
             <hr>
             <li><router-link to="/help">HELP</router-link></li>
             <li><a :href="authUrl">LOGIN</a></li>
@@ -111,9 +109,9 @@ nav {
 .dropDownMenu{
   position: absolute;
   top: 7em;
+  right: 1em;  
   padding: 2em;
   background-color: #121212;
-
   min-width: 10em;
   min-height: 10em;
 }
