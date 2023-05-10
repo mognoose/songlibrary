@@ -59,6 +59,23 @@
         <div v-else style="padding-bottom: 1em">No lyrics</div>
       </div>
 
+      <div class="btn lyrics" v-else-if="$route.query.section === 'tabs'">
+        <h2><svg-icon :fa-icon="faMusic" /> Tabs</h2>
+        <div
+          v-if="song.fields.tabs"
+          class="lyricsbody"
+        >
+          <table>
+            <tr v-for="tab in song.fields.tabs" :key="tab.sys.id" @click="download(tab.fields.file.url)">
+              <td style="width: auto;">{{ tab.fields.title }}</td>
+              <td style="width: auto;">{{ tab.fields.file.fileName }}</td>
+              <td style="width: 1rem;"><svg-icon :fa-icon="faDownload" /></td>
+              </tr>
+          </table>
+        </div>
+        <div v-else style="padding-bottom: 1em">No tabs</div>
+      </div>
+
       <div class="btn lyrics" v-else-if="$route.query.section === 'chords'">
         <h2><svg-icon :fa-icon="faMusic" /> Chords and Structure</h2>
         <div v-if="song.fields?.chords?.length > 0">
@@ -111,6 +128,10 @@
           <div class="icon"><svg-icon :fa-icon="faMusic" /></div>
           <div class="heading"><h2>Chords</h2></div>
         </div>
+        <div v-if="song.fields?.tabs" class="btn sectionButton" @click="openSection('tabs')">
+          <div class="icon"><svg-icon :fa-icon="faMusic" /></div>
+          <div class="heading"><h2>Tabs</h2></div>
+        </div>
         <div v-if="song.fields?.lyrics" class="btn sectionButton" @click="openSection('lyrics')">
           <div class="icon"><svg-icon :fa-icon="faMicrophone" /></div>
           <div class="heading"><h2>Lyrics</h2></div>
@@ -140,6 +161,7 @@ import {
   faArrowLeft,
   faMusic,
   faHeadphones,
+  faDownload,
   faMicrophone,
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
@@ -159,6 +181,7 @@ export default {
       faMusic,
       faHeadphones,
       faMicrophone,
+      faDownload,
       faWhatsapp,
       faLink,
     };
@@ -267,7 +290,10 @@ export default {
     },
     selectInstrument(instrument) {
       this.$router.push({ params: this.$router.params, query: {section: "chords", instrument} })      
-    }
+    },
+    download(url) {
+      window.location = url;
+    },
   },
 };
 </script>
