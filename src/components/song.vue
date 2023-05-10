@@ -103,19 +103,19 @@
       </div>
 
       <div v-else>
-        <div class="btn sectionButton" @click="openSection('recordings')">
+        <div v-if="song.fields?.demo" class="btn sectionButton" @click="openSection('recordings')">
           <div class="icon"><svg-icon :fa-icon="faHeadphones" /></div>
           <div class="heading"><h2>Recordings</h2></div>
         </div>
-        <div class="btn sectionButton" @click="openSection('chords')">
+        <div v-if="song.fields?.chordsAndStructure" class="btn sectionButton" @click="openSection('chords')">
           <div class="icon"><svg-icon :fa-icon="faMusic" /></div>
           <div class="heading"><h2>Chords</h2></div>
         </div>
-        <div class="btn sectionButton" @click="openSection('lyrics')">
+        <div v-if="song.fields?.lyrics" class="btn sectionButton" @click="openSection('lyrics')">
           <div class="icon"><svg-icon :fa-icon="faMicrophone" /></div>
           <div class="heading"><h2>Lyrics</h2></div>
         </div>
-        <div class="btn sectionButton" @click="openSection('links')">
+        <div v-if="song.fields?.links" class="btn sectionButton" @click="openSection('links')">
           <div class="icon"><svg-icon :fa-icon="faLink" /></div>
           <div class="heading"><h2>Links</h2></div>
         </div>

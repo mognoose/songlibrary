@@ -402,7 +402,7 @@ export default {
         this.$router.push("/add");
       } catch (error) {
         console.log(error);
-        this.setNotification(error);
+        this.setNotification('Error creating entry', error);
         this.setLoading(false);
         return;
       }
@@ -473,10 +473,8 @@ export default {
 <style lang="scss">
 input,
 textarea,
-select,
-.multiselect-search,
-.multiselect,
-.multiselect-options {
+select
+{
   background-color: #121212;
   color: #cecece;
   padding: 10px 35px 10px 15px;
@@ -486,28 +484,10 @@ select,
   margin-bottom: 1em;
   width: 100%;
 }
-.multiselect,
-.multiselect-options {
-  border: 0px;
-  margin: 0px;
-  padding: 0px;
-  width: 110%;
-}
-.is-pointed {
-  background-color: #121212 !important;
-  color: #fff !important;
-}
-.multiselect-dropdown {
-  border-radius: 15px;
-  border: 0px;
-  background-color: rgba($color: #000000, $alpha: 0);
-  overflow-x: hidden;
-}
 .input {
   margin: 0 auto;
 }
-textarea,
-.multiselect-options {
+textarea{
   border-radius: 15px;
 }
 select {
