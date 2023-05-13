@@ -254,8 +254,8 @@ export default {
           });
           let showTag = 0;
           if (tagCount.demo === 0) showTag++;
-          if (tagCount.riff === 0 && showTag === 1) showTag++;
-          if (tagCount.rehersalrec === 0 && showTag === 2) showTag++;
+          if (tagCount.rehersalrec === 0 && showTag === 1) showTag++;
+          if (tagCount.riff === 0 && showTag === 2) showTag++;
 
           this.tags[showTag].selected = true;
 
