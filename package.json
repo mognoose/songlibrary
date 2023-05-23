@@ -10,6 +10,7 @@
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "stage": "vue-cli-service build --dest dist/songlibrary",
+    "change:env": "node src/scripts/changeEnv.js",
     "deploystage": "scp -r dist/songlibrary root@sapatti.synology.me:/volume1/web/"
   },
   "dependencies": {
@@ -20,6 +21,7 @@
     "contentful": "^9.1.28",
     "contentful-management": "^10.3.1",
     "core-js": "^3.22.4",
+    "inquirer": "^8.2.5",
     "luxon": "^2.4.0",
     "regenerator-runtime": "^0.13.9",
     "vue": "^3.2.13",

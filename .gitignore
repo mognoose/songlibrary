@@ -21,3 +21,4 @@ pnpm-debug.log*
 *.ntvs*
 *.njsproj
 *.sw?
+src/scripts/environments.json
