@@ -41,7 +41,7 @@ export default {
         const userData = await axios.get("https://api.contentful.com/users/me?access_token="+token)
         this.setUser({...userData.data, token:token})
         localStorage.setItem('token', token)
-        this.$router.push('/add')
+        this.$router.push('/')
       } else if(localStorage.getItem('token')) {
         const userData = await axios.get("https://api.contentful.com/users/me?access_token="+localStorage.getItem('token'))
         this.setUser({...userData.data, token:localStorage.getItem('token')})

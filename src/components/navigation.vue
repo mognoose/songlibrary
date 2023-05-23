@@ -43,7 +43,7 @@ export default {
   },
   data() {
     return {
-      authUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id="+process.env.VUE_APP_CTF_CLIENT_ID+"&redirect_uri=https://songlibrary.vercel.app&scope=content_management_manage",
+      authUrl: "https://be.contentful.com/oauth/authorize?response_type=token&client_id="+process.env.VUE_APP_CTF_CLIENT_ID+"&redirect_uri="+window.location+"&scope=content_management_manage",
       menuOpen: "",
     };
   },
