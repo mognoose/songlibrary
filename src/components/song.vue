@@ -228,6 +228,10 @@ export default {
               tagCount.rehersalrec++;
               return;
             }
+            if (demo.metadata.tags[0].sys.id === "other") {
+              tagCount.other++;
+              return;
+            }
           });
           let showTag = 0;
           if (tagCount.demo === 0) showTag++;
