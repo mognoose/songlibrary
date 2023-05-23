@@ -7,7 +7,7 @@
           <a class="btn round" @click.prevent="play()"><svg-icon :fa-icon="playerSource.status === 'play' ? faPause : faPlay" size="34" /></a>
         </div>
         <div>
-          <p @dblclick="toggleWA()">{{ playerSource.title }}</p>
+          <p @dblclick="toggleWA()">{{ bandname }} - {{ playerSource.title }}</p>
           <input
             type="range"
             :min="0"
@@ -61,6 +61,9 @@ export default {
   },
   computed: {
     ...mapGetters(['playerSource']),
+    bandname() {
+      return process.env.VUE_APP_BAND_NAME || 'Songlibraryband';
+    },
   },
   setup() {
 		return {
@@ -72,8 +75,8 @@ export default {
 
       navigator.mediaSession.metadata = new MediaMetadata({
         title: newRec.title,
-        artist: 'Songlibraryband',
-        album: 'Songlibrary',
+        artist: this.bandname,
+        album: newRec.title,
         artwork: [
           { src: 'https://picsum.photos/96/96',   sizes: '96x96',   type: 'image/png' },
           { src: 'https://picsum.photos/128/128', sizes: '128x128', type: 'image/png' },

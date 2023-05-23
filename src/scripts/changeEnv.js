@@ -51,7 +51,9 @@ function changeEnv(data) {
             }
 
             const env = JSON.parse(data)[answer.env];
-            const content = `VUE_APP_CTF_SPACE_ID=${env.VUE_APP_CTF_SPACE_ID}
+            const bandname = env.VUE_APP_BAND_NAME ? `VUE_APP_BAND_NAME=${env.VUE_APP_BAND_NAME}` : ''
+            const content = `${bandname}
+VUE_APP_CTF_SPACE_ID=${env.VUE_APP_CTF_SPACE_ID}
 VUE_APP_CTF_ENVIRONMENT=${env.VUE_APP_CTF_ENVIRONMENT}
 VUE_APP_CTF_CDA_ACCESS_TOKEN=${env.VUE_APP_CTF_CDA_ACCESS_TOKEN}
 VUE_APP_CTF_CMA_ACCESS_TOKEN=${env.VUE_APP_CTF_CMA_ACCESS_TOKEN}
@@ -88,6 +90,11 @@ async function addNewEnv() {
             },
             {
                 type: 'input',
+                name: 'VUE_APP_BAND_NAME',
+                message: 'VUE_APP_BAND_NAME',
+            },
+            {
+                type: 'input',
                 name: 'VUE_APP_CTF_SPACE_ID',
                 message: 'VUE_APP_CTF_SPACE_ID',
             },
@@ -111,6 +118,7 @@ async function addNewEnv() {
 
             const content = `{
     "${answers.name}": {
+        VUE_APP_BAND_NAME: ${answers.VUE_APP_BAND_NAME},
         VUE_APP_CTF_SPACE_ID: ${answers.VUE_APP_CTF_SPACE_ID},
         VUE_APP_CTF_ENVIRONMENT: ${answers.VUE_APP_CTF_ENVIRONMENT},
         VUE_APP_CTF_CDA_ACCESS_TOKEN: ${answers.VUE_APP_CTF_CDA_ACCESS_TOKEN},
