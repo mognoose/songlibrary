@@ -59,6 +59,23 @@
         <div v-else style="padding-bottom: 1em">No lyrics</div>
       </div>
 
+      <div class="btn lyrics" v-else-if="$route.query.section === 'tabs'">
+        <h2><svg-icon :fa-icon="faMusic" /> Tabs</h2>
+        <div
+          v-if="song.fields.tabs"
+          class="lyricsbody"
+        >
+          <table>
+            <tr v-for="tab in song.fields.tabs" :key="tab.sys.id" @click="download(tab.fields.file.url)">
+              <td style="width: auto;">{{ tab.fields.title }}</td>
+              <td style="width: auto;">{{ tab.fields.file.fileName }}</td>
+              <td style="width: 1rem;"><svg-icon :fa-icon="faDownload" /></td>
+              </tr>
+          </table>
+        </div>
+        <div v-else style="padding-bottom: 1em">No tabs</div>
+      </div>
+
       <div class="btn lyrics" v-else-if="$route.query.section === 'chords'">
         <h2><svg-icon :fa-icon="faMusic" /> Chords and Structure</h2>
         <div v-if="song.fields?.chords?.length > 0">
@@ -103,19 +120,23 @@
       </div>
 
       <div v-else>
-        <div class="btn sectionButton" @click="openSection('recordings')">
+        <div v-if="song.fields?.demo" class="btn sectionButton" @click="openSection('recordings')">
           <div class="icon"><svg-icon :fa-icon="faHeadphones" /></div>
           <div class="heading"><h2>Recordings</h2></div>
         </div>
-        <div class="btn sectionButton" @click="openSection('chords')">
+        <div v-if="song.fields?.chordsAndStructure" class="btn sectionButton" @click="openSection('chords')">
           <div class="icon"><svg-icon :fa-icon="faMusic" /></div>
           <div class="heading"><h2>Chords</h2></div>
         </div>
-        <div class="btn sectionButton" @click="openSection('lyrics')">
+        <div v-if="song.fields?.tabs" class="btn sectionButton" @click="openSection('tabs')">
+          <div class="icon"><svg-icon :fa-icon="faMusic" /></div>
+          <div class="heading"><h2>Tabs</h2></div>
+        </div>
+        <div v-if="song.fields?.lyrics" class="btn sectionButton" @click="openSection('lyrics')">
           <div class="icon"><svg-icon :fa-icon="faMicrophone" /></div>
           <div class="heading"><h2>Lyrics</h2></div>
         </div>
-        <div class="btn sectionButton" @click="openSection('links')">
+        <div v-if="song.fields?.links" class="btn sectionButton" @click="openSection('links')">
           <div class="icon"><svg-icon :fa-icon="faLink" /></div>
           <div class="heading"><h2>Links</h2></div>
         </div>
@@ -140,6 +161,7 @@ import {
   faArrowLeft,
   faMusic,
   faHeadphones,
+  faDownload,
   faMicrophone,
   faLink,
 } from "@fortawesome/free-solid-svg-icons";
@@ -159,6 +181,7 @@ export default {
       faMusic,
       faHeadphones,
       faMicrophone,
+      faDownload,
       faWhatsapp,
       faLink,
     };
@@ -235,8 +258,8 @@ export default {
           });
           let showTag = 0;
           if (tagCount.demo === 0) showTag++;
-          if (tagCount.riff === 0 && showTag === 1) showTag++;
-          if (tagCount.rehersalrec === 0 && showTag === 2) showTag++;
+          if (tagCount.rehersalrec === 0 && showTag === 1) showTag++;
+          if (tagCount.riff === 0 && showTag === 2) showTag++;
 
           this.tags[showTag].selected = true;
 
@@ -271,7 +294,10 @@ export default {
     },
     selectInstrument(instrument) {
       this.$router.push({ params: this.$router.params, query: {section: "chords", instrument} })      
-    }
+    },
+    download(url) {
+      window.location = url;
+    },
   },
 };
 </script>
