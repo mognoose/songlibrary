@@ -33,7 +33,7 @@ export default {
   computed: {
     ...mapGetters(['playerSource']),
     dateFormat() {
-      return this.$luxonDateTime.fromISO(this.file.sys.createdAt).setLocale('fi-fi').toLocaleString()
+      return this.$luxonDateTime.fromISO(this.file.sys.updatedAt).setLocale('fi-fi').toLocaleString()
     }
   },
   methods: {
