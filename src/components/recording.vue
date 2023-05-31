@@ -21,7 +21,7 @@
         </div>
       </div>
       <DemoFiles :files="[rec]" :tags="[{ name: 'demo', selected: true },{ name: 'rehersalrec', selected: true },{ name: 'riff', selected: true },{ name: 'other', selected: true }]" />
-      <Comments />
+      <!-- <Comments /> -->
     </div>
 
     <div v-else>
