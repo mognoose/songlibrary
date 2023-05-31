@@ -19,8 +19,8 @@
             <!-- <pre>{{ highlightedNote }}</pre> -->
         </div>
         
-        <div class="tab-creator" v-for="tab, tabIndex in tabs" :key="tab.name">
-            <div class="part-name">[ {{ tab.name.charAt(0).toUpperCase() + tab.name.substr(1).toLowerCase() }} ]</div>
+        <div class="tab-creator" v-for="tab, tabIndex in tabs" :key="tab.tabIndex">
+            <div class="part-name">{{ formatPartName(tabIndex) }}</div>
             <div class="notes">
                 <span v-for="note, i in tab.notes" :key="i">
                     {{ note }} | 
@@ -79,8 +79,11 @@ export default {
             newNote = newNote ? newNote : (event < 0 ? 'B' : 'A#');
             this.tabs[tabIndex].notes[i] = newNote;
             this.highlightedNote = newNote;
-
         },
+        formatPartName(i) {
+            const name = this.tabs[i].name
+            return '[ ' + name.charAt(0).toUpperCase() + name.substr(1).toLowerCase() + ' ]'
+        }
     },
 }
 </script>
@@ -100,7 +103,7 @@ export default {
 
         :first-child{
             div{
-                border-top: 0 solid blue;
+                border-top: 0;
                 border: 0;
                 border-right: 3px solid #333;
             }
@@ -108,12 +111,12 @@ export default {
         
         div {
             border: 1px solid #333;
-            border-top: 0 solid blue;
-            border-left: 0 solid blue;
+            border-top: 0;
+            border-left: 0;
             height: 2rem;
 
             :first-child {
-                border-top: 0 solid blue;
+                border-top: 0;
             }
             
             div {
@@ -160,6 +163,10 @@ export default {
     .tab-creator {
         padding: 1rem;
         text-align: left;
+
+        .notes {
+            margin-bottom: 1em;
+        }
 
         .notes-input {
             .note {
