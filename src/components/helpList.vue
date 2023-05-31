@@ -78,7 +78,6 @@ export default {
   color: #cecece;
   padding: 10px 35px 10px 15px;
   border: 1px solid #666;
-  border-radius: 100px;
   outline: none;
   margin-bottom: 1em;
   border-style: hidden; /* hide standard table (collapsed) border */

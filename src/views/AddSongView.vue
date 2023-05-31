@@ -479,7 +479,7 @@ select
   color: #cecece;
   padding: 10px 35px 10px 15px;
   border: 1px solid #666;
-  border-radius: 100px;
+  border-radius: 1em;
   outline: none;
   margin-bottom: 1em;
   width: 100%;
