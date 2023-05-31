@@ -21,6 +21,7 @@
         </div>
       </div>
       <DemoFiles :files="[rec]" :tags="[{ name: 'demo', selected: true },{ name: 'rehersalrec', selected: true },{ name: 'riff', selected: true },{ name: 'other', selected: true }]" />
+      <Comments />
     </div>
 
     <div v-else>
@@ -34,6 +35,7 @@
 import { createClient } from 'contentful';
 import { documentToHtmlString } from '@contentful/rich-text-html-renderer';
 import Demos from '../components/demos.vue';
+import Comments from '../components/comments.vue';
 import DemoFiles from '../components/files.vue';
 import Spinner from '../components/Spinner'
 import { mapGetters, mapActions, mapMutations } from 'vuex';
@@ -43,6 +45,7 @@ export default {
   components: {
     DemoFiles,
     Demos,
+    Comments,
     Spinner,
   },
   setup() {
