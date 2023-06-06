@@ -40,7 +40,7 @@
                 </span>
             </div>
         </div>
-        <button @click="addSection()">+</button>
+        <button class="button" @click="addSection()">Add new section</button>
     </div>
 </template>
 
