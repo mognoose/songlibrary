@@ -1,26 +1,19 @@
 <template>
     <div class="container">
         <h1>TabCreator</h1>
-        
         <div class="guitar-neck">
-            <div style="border: 0;"><div><span class="open" :class="{highlight: highlightedNote === 'E'}">E</span></div><div><span class="open" :class="{highlight: highlightedNote === 'B'}">B</span></div><div><span class="open" :class="{highlight: highlightedNote === 'F#'}">F#</span></div><div><span class="open" :class="{highlight: highlightedNote === 'B'}">B</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'F'}">F</span></div><div><span :class="{highlight: highlightedNote === 'C'}">C</span></div><div><span :class="{highlight: highlightedNote === 'G'}">G</span></div><div><span :class="{highlight: highlightedNote === 'C'}">C</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'F#'}">F#</span></div><div><span :class="{highlight: highlightedNote === 'C#'}">C#</span></div><div><span :class="{highlight: highlightedNote === 'G#'}">G#</span></div><div><span :class="{highlight: highlightedNote === 'C#'}">C#</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'G'}">G</span></div><div><span :class="{highlight: highlightedNote === 'D'}">D</span></div><div><span :class="{highlight: highlightedNote === 'A'}">A</span></div><div><span :class="{highlight: highlightedNote === 'D'}">D</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'G#'}">G#</span></div><div><span :class="{highlight: highlightedNote === 'D#'}">D#</span></div><div><span :class="{highlight: highlightedNote === 'A#'}">A#</span></div><div><span :class="{highlight: highlightedNote === 'D#'}">D#</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'A'}">A</span></div><div><span :class="{highlight: highlightedNote === 'E'}">E</span></div><div><span :class="{highlight: highlightedNote === 'B'}">B</span></div><div><span :class="{highlight: highlightedNote === 'E'}">E</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'A#'}">A#</span></div><div><span :class="{highlight: highlightedNote === 'F'}">F</span></div><div><span :class="{highlight: highlightedNote === 'C'}">C</span></div><div><span :class="{highlight: highlightedNote === 'F'}">F</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'B'}">B</span></div><div><span :class="{highlight: highlightedNote === 'F#'}">F#</span></div><div><span :class="{highlight: highlightedNote === 'C#'}">C#</span></div><div><span :class="{highlight: highlightedNote === 'F#'}">F#</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'C'}">C</span></div><div><span :class="{highlight: highlightedNote === 'G'}">G</span></div><div><span :class="{highlight: highlightedNote === 'D'}">D</span></div><div><span :class="{highlight: highlightedNote === 'G'}">G</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'C#'}">C#</span></div><div><span :class="{highlight: highlightedNote === 'G#'}">G#</span></div><div><span :class="{highlight: highlightedNote === 'D#'}">D#</span></div><div><span :class="{highlight: highlightedNote === 'G#'}">G#</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'D'}">D</span></div><div><span :class="{highlight: highlightedNote === 'A'}">A</span></div><div><span :class="{highlight: highlightedNote === 'E'}">E</span></div><div><span :class="{highlight: highlightedNote === 'A'}">A</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'D#'}">D#</span></div><div><span :class="{highlight: highlightedNote === 'A#'}">A#</span></div><div><span :class="{highlight: highlightedNote === 'F'}">F</span></div><div><span :class="{highlight: highlightedNote === 'A#'}">A#</span></div></div>
-            <div><div><span :class="{highlight: highlightedNote === 'E'}">E</span></div><div><span :class="{highlight: highlightedNote === 'B'}">B</span></div><div><span :class="{highlight: highlightedNote === 'F#'}">F#</span></div><div><span :class="{highlight: highlightedNote === 'B'}">B</span></div></div>
-            <!-- <pre>{{ highlightedNote }}</pre> -->
+            <div style="border: 0;">
+                <div v-for="note in tuning">
+                    <span class="open" @click="addNote(note, activePart)" :class="{highlight: highlightedNote === note}">{{note}}</span>
+                </div>
+            </div>
+            <div v-for="index in 12" :key="index">
+                <div v-for="note in tuning"><span @click="addNote(fret(note, index), activePart)" :class="{highlight: highlightedNote === fret(note, index)}">{{fret(note, index)}}</span></div>
+            </div>
         </div>
         
-        <div class="tab-creator" v-for="tab, tabIndex in tabs" :key="tab.tabIndex">
-            <div class="part-name">{{ formatPartName(tabIndex) }}</div>
+        <div class="tab-creator" v-for="tab, tabIndex in tabs" :key="tab.tabIndex" :class="{'active-part': activePart === tabIndex}">
+            <div class="part-name" @click="setActivePart(tabIndex)">{{ formatPartName(tabIndex) }}</div>
             <div class="notes">
                 <span v-for="note, i in tab.notes" :key="i">
                     {{ note }} | 
@@ -56,20 +49,28 @@ export default {
     data() {
         return {
             tabs: [
-                {name: 'verse', notes: ['B', 'D']}
+                {name: 'intro', notes: []}
+            ],
+            tuning: [
+                'E', 'B', 'F#', 'B',
             ],
             notes: [
                 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#',
             ],
             highlightedNote: '',
+            activePart: 0,
         }
     },
     methods: {
         addSection() {
             this.tabs.push({name: '', notes: []})
+            this.setActivePart(this.tabs.length-1);
         },
         highlightNote(note) {
             this.highlightedNote = note === 'new' ? '' : note;
+        },
+        addNote(note, part){
+            this.tabs[part].notes.push(note)
         },
         changeNote(tabIndex, note, i, action, event) {
             if(action === 'remove') return this.tabs[tabIndex].notes.splice(i,1)
@@ -83,7 +84,15 @@ export default {
         formatPartName(i) {
             const name = this.tabs[i].name
             return '[ ' + name.charAt(0).toUpperCase() + name.substr(1).toLowerCase() + ' ]'
-        }
+        },
+        fret(n, fret){
+            let index = this.notes.findIndex(note => note === n)+fret
+            if (index >= 12) index = index-12;
+            return this.notes[index]
+        },
+        setActivePart(active){
+            this.activePart = active;
+        },
     },
 }
 </script>
@@ -100,6 +109,7 @@ export default {
         height: 10rem;
         padding-top: 2em;
         text-align: center;
+        padding-right: 2em;
 
         :first-child{
             div{
@@ -161,6 +171,7 @@ export default {
     }
 
     .tab-creator {
+        margin: 1rem 0;
         padding: 1rem;
         text-align: left;
 
@@ -187,6 +198,9 @@ export default {
             background-color: #1a1a1a;
             border-radius: 0;
         }
+    }
+    .active-part{
+        border-left: 3px solid #333;
     }
 }
 </style>
