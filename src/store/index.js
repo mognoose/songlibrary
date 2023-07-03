@@ -6,12 +6,14 @@ export default createStore({
     loading: false,
     notification: '',
     player: {},
+    activeTuning: process.env.VUE_APP_DEFAULT_TUNE || 0,
   },
   getters: {
     user: state => state.user,
     loading: state => state.loading,
     notification: state => state.notification,
     playerSource: state => state.player,
+    activeTuning: state => state.activeTuning,
   },
   mutations: {
     setUser (state, user){
@@ -29,6 +31,9 @@ export default createStore({
     },
     setNotification (state, notification){
       state.notification = notification
+    },
+    setActiveTuning (state, activeTuning){
+      state.activeTuning = activeTuning
     }
   },
   actions: {
@@ -40,6 +45,9 @@ export default createStore({
     },
     setNotification (ctx, notification){
       ctx.commit('setNotification', notification)
+    },
+    setActiveTuning (ctx, activeTuning){
+      ctx.commit('setActiveTuning', activeTuning)
     }
   },
   modules: {

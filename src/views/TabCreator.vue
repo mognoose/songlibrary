@@ -3,13 +3,17 @@
         <h1>TabCreator</h1>
         <div class="guitar-neck">
             <div style="border: 0;">
-                <div v-for="note in tuning">
+                <div v-for="note in tuning[activeTuning]">
                     <span class="open" @click="addNote(note, activePart)" :class="{highlight: highlightedNote === note}">{{note}}</span>
                 </div>
             </div>
             <div v-for="index in 12" :key="index">
-                <div v-for="note in tuning"><span @click="addNote(fret(note, index), activePart)" :class="{highlight: highlightedNote === fret(note, index)}">{{fret(note, index)}}</span></div>
+                <div v-for="note in tuning[activeTuning]"><span @click="addNote(fret(note, index), activePart)" :class="{highlight: highlightedNote === fret(note, index)}">{{fret(note, index)}}</span></div>
             </div>
+            <div class="settings-button">
+                <svg-icon @click="changeTuning" :fa-icon="faGear" size="18" />
+            </div>
+
         </div>
         
         <div class="tab-creator" v-for="tab, tabIndex in tabs" :key="tab.tabIndex" :class="{'active-part': activePart === tabIndex}">
@@ -45,6 +49,9 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex';
+import {faGear} from "@fortawesome/free-solid-svg-icons";
+
 export default {
     data() {
         return {
@@ -52,7 +59,9 @@ export default {
                 {name: 'intro', notes: []}
             ],
             tuning: [
-                'E', 'B', 'F#', 'B',
+                ['E', 'B', 'F#', 'B',],
+                ['F', 'C', 'G', 'C',],
+                ['G', 'D', 'A', 'E',],
             ],
             notes: [
                 'B', 'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#',
@@ -61,7 +70,14 @@ export default {
             activePart: 0,
         }
     },
+    setup() {
+        return {faGear};
+    },
+    computed: {
+        ...mapGetters(['activeTuning',])
+    },
     methods: {
+        ...mapActions(['setActiveTuning']),
         addSection() {
             this.tabs.push({name: '', notes: []})
             this.setActivePart(this.tabs.length-1);
@@ -93,6 +109,12 @@ export default {
         setActivePart(active){
             this.activePart = active;
         },
+        changeTuning() {
+            console.log(this.tuning.length);
+            let newTune = this.activeTuning+1
+            if (newTune >= this.tuning.length) newTune = 0
+            this.setActiveTuning(newTune)
+        }
     },
 }
 </script>
@@ -103,6 +125,7 @@ export default {
     margin: 0 auto;
 
     .guitar-neck {
+        position: relative;
         display: grid;
         grid-template-columns: repeat(13, 1fr);
         border: 1px solid #121212;
@@ -110,6 +133,19 @@ export default {
         padding-top: 2em;
         text-align: center;
         padding-right: 2em;
+
+        .settings-button{
+            position: absolute;
+            top: 0;
+            border: 0;
+            padding: .5rem;
+            opacity: .2;
+            cursor: pointer;
+        }
+
+        .settings-button:hover {
+            opacity: 1;
+        }
 
         :first-child{
             div{
