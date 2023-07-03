@@ -110,7 +110,6 @@ export default {
             this.activePart = active;
         },
         changeTuning() {
-            console.log(this.tuning.length);
             let newTune = this.activeTuning+1
             if (newTune >= this.tuning.length) newTune = 0
             this.setActiveTuning(newTune)
